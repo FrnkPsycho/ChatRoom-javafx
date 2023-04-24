@@ -43,6 +43,7 @@ dependencies {
         exclude(group: 'org.openjfx')
     }
     implementation('org.kordamp.ikonli:ikonli-javafx:12.3.1')
+    implementation('com.alibaba.fastjson2:fastjson-parent:2.0.3.graal')
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
