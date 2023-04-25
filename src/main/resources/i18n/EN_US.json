@@ -1,0 +1,8 @@
+{
+  "client.window.title": "JavaFX Chat Room",
+  "client.tab.profile": "Profile",
+  "client.tab.chat_room": "Chat Room",
+  "client.tab.friends": "Friends",
+  "client.tab.private": "Private Chat",
+  "client.chat.send": "Send"
+}
