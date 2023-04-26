@@ -1,11 +1,9 @@
-package top.frnks.chatroomjavafx.common.utils;
+package top.frnks.chatroomjavafx.common.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import top.frnks.chatroomjavafx.client.ClientApplication;
-import top.frnks.chatroomjavafx.client.ClientLanguage;
 import top.frnks.chatroomjavafx.client.ClientSettings;
 
 import java.io.IOException;

@@ -7,7 +7,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
-import top.frnks.chatroomjavafx.common.utils.TranslatableString;
+import top.frnks.chatroomjavafx.common.model.entity.User;
+import top.frnks.chatroomjavafx.common.util.TranslatableString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class ClientChatRoomTab {
     public static final Button chatRoomTypeSendPictureButton = new Button("Pic"); // TODO: use icon instead of text
     public static final TilePane chatRoomTypeTools = new TilePane();
     public static final TextField chatRoomTypeField = new TextField();
-    public static final ListView<String> memberView;
+    public static final ListView<User> memberView;
 
     static {
 
@@ -27,7 +28,15 @@ public class ClientChatRoomTab {
         chatRoomFrame.setHgap(10);
         chatRoomFrame.setVgap(10);
 
-        List<String> members = new ArrayList<>(List.of("Admin", "User111")); // TODO: member list just for testing
+        List<User> members = new ArrayList<>(List.of(
+                new User(10000, "Admin", "P@s5W0rD"),
+                new User(10001, "User1", "test")));
+        members.get(0).setOnline(true);
+        members.get(1).setOnline(true);
+        members.get(0).addFriend(members.get(1));
+        members.get(0).removeFriend(members.get(1));
+        members.get(1).setOnline(false);
+        // TODO: member list just for testing
 
 
         chatRoomMessageField.setEditable(false);
@@ -42,15 +51,16 @@ public class ClientChatRoomTab {
         chatRoomTypeField.setPrefSize(600, 100);
 
         memberView = new ListView<>(FXCollections.observableList(members));
+        memberView.setCellFactory(new UserCellFactory());
         memberView.setEditable(false);
         memberView.setPrefSize(200, 500);
 //        memberView.setContextMenu(new ContextMenu(new MenuItem("Check")));
 
-        chatRoomFrame.add(chatRoomMessageField, 0, 1);
-        chatRoomFrame.add(chatRoomTypeTools, 0, 2);
-        chatRoomFrame.add(chatRoomTypeField, 0, 3);
-        chatRoomFrame.add(chatRoomTypeSendButton, 1, 3);
-        chatRoomFrame.add(memberView, 1, 1);
+        chatRoomFrame.add(chatRoomMessageField, 0, 0);
+        chatRoomFrame.add(chatRoomTypeTools, 0, 1);
+        chatRoomFrame.add(chatRoomTypeField, 0, 2);
+        chatRoomFrame.add(chatRoomTypeSendButton, 1, 2);
+        chatRoomFrame.add(memberView, 1, 0);
 
     }
 }

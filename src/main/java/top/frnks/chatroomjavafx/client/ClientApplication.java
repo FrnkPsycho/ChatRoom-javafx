@@ -1,26 +1,17 @@
 package top.frnks.chatroomjavafx.client;
 
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.kordamp.ikonli.javafx.FontIcon;
-import org.kordamp.ikonli.javafx.Icon;
-import top.frnks.chatroomjavafx.common.utils.TranslatableString;
+import top.frnks.chatroomjavafx.common.util.TranslatableString;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.net.Socket;
+import java.util.logging.Logger;
 
 public class ClientApplication extends Application {
+    public static final Logger LOGGER = Logger.getGlobal();
     public static final VBox mainRoot = new VBox();
     public static final TabPane mainTabsRoot = new TabPane();
     public static final Scene mainScene = new Scene(mainRoot);
@@ -53,5 +44,12 @@ public class ClientApplication extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+
+    public static void connectToServer(String remote, int port) {
+
+//        try (Socket clientSocket = new Socket(remote, port)) {
+//
+//        } catch ()
     }
 }

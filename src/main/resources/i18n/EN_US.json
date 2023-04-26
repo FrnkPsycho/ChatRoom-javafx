@@ -4,5 +4,6 @@
   "client.tab.chat_room": "Chat Room",
   "client.tab.friends": "Friends",
   "client.tab.private": "Private Chat",
-  "client.chat.send": "Send"
+  "client.chat.send": "Send",
+  "common.default_nickname": "Anonymous"
 }
