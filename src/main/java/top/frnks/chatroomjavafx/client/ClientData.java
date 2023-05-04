@@ -13,4 +13,6 @@ public class ClientData {
     public static Socket clientSocket;
     public static ObjectInputStream objectInputStream;
     public static ObjectOutputStream objectOutputStream;
+    public static String clientIp;
+
 }
