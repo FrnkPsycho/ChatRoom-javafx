@@ -4,12 +4,14 @@ import top.frnks.chatroomjavafx.client.ClientApplication;
 import top.frnks.chatroomjavafx.common.type.Gender;
 import top.frnks.chatroomjavafx.common.util.TranslatableString;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class User implements Serializable {
-    private static final Long serialVersionUID = 100L;
+    @Serial
+    private static final long serialVersionUID = 100L;
     private long id;
     private String nickname;
     private String rawPassword;

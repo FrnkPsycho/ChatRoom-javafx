@@ -7,6 +7,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import top.frnks.chatroomjavafx.common.util.TranslatableString;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Logger;
 
@@ -22,6 +25,8 @@ public class ClientApplication extends Application {
 
     @Override
     public void start(Stage stage) {
+//        connectToServer("localhost", 6657);
+        // TODO: uncomment this after server code is done.
         mainRoot.getChildren().add(mainTabsRoot);
 
         profileTab.setClosable(false);
@@ -29,10 +34,10 @@ public class ClientApplication extends Application {
         friendsTab.setClosable(false);
         privateTab.setClosable(false);
 
-        mainTabsRoot.getTabs().add(profileTab);
         mainTabsRoot.getTabs().add(chatRoomTab);
-        mainTabsRoot.getTabs().add(friendsTab);
         mainTabsRoot.getTabs().add(privateTab);
+        mainTabsRoot.getTabs().add(profileTab);
+        mainTabsRoot.getTabs().add(friendsTab);
 
         chatRoomTab.setContent(ClientChatRoomTab.chatRoomFrame);
 
@@ -40,6 +45,7 @@ public class ClientApplication extends Application {
         stage.setTitle(new TranslatableString("client.window.title").translate());
         stage.setScene(mainScene);
         stage.show();
+
     }
 
     public static void main(String[] args) {
@@ -47,9 +53,14 @@ public class ClientApplication extends Application {
     }
 
     public static void connectToServer(String remote, int port) {
+        try {
+            ClientData.clientSocket = new Socket(remote, port);
+            ClientData.objectInputStream = new ObjectInputStream(ClientData.clientSocket.getInputStream());
+            ClientData.objectOutputStream = new ObjectOutputStream(ClientData.clientSocket.getOutputStream());
+        } catch (IOException e) {
+            LOGGER.warning("Unable to connect to server: \"" + remote + ":" + port + "\"");
+            // TODO: loop reconnect to server
+        }
 
-//        try (Socket clientSocket = new Socket(remote, port)) {
-//
-//        } catch ()
     }
 }
