@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import top.frnks.chatroomjavafx.common.model.entity.User;
 import top.frnks.chatroomjavafx.common.util.TranslatableString;
 
 import java.io.IOException;
@@ -26,6 +27,9 @@ public class ClientApplication extends Application {
     @Override
     public void start(Stage stage) {
 //        connectToServer("localhost", 6657);
+        // TODO: login to get currentUser
+        ClientDataBuffer.currentUser = new User(88888, "DEBUG_CURRENT_USER", "password");
+
         // TODO: uncomment this after server code is done.
         mainRoot.getChildren().add(mainTabsRoot);
 
@@ -40,6 +44,7 @@ public class ClientApplication extends Application {
         mainTabsRoot.getTabs().add(friendsTab);
 
         chatRoomTab.setContent(ClientChatRoomTab.chatRoomFrame);
+        friendsTab.setContent(ClientFriendsTab.friendsFrame);
 
 //        mainRoot.setPrefSize(800, 600);
         stage.setTitle(new TranslatableString("client.window.title").translate());

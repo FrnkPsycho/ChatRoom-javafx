@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Request implements Serializable {
     private ResponseType responseType;
-    private String action;
+    private ActionType action;
     private Map<String, Object> attributeMap;
     public Request() {
         this.attributeMap = new HashMap<>();
@@ -20,11 +20,11 @@ public class Request implements Serializable {
         this.responseType = responseType;
     }
 
-    public String getAction() {
+    public ActionType getAction() {
         return action;
     }
 
-    public void setAction(String action) {
+    public void setAction(ActionType action) {
         this.action = action;
     }
 

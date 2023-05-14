@@ -5,5 +5,7 @@
   "client.tab.friends": "Friends",
   "client.tab.private": "Private Chat",
   "client.chat.send": "Send",
-  "common.default_nickname": "Anonymous"
+  "client.chat.motd": "Welcome to the public chat room, feel free to talk!\n",
+  "common.default_nickname": "Anonymous",
+  "alert.blank_message": "Cannot send blank message!"
 }

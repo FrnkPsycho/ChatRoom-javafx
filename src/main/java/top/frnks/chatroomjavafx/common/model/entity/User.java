@@ -103,4 +103,9 @@ public class User implements Serializable {
         }
         // TODO: user online server broadcast
     }
+
+    public List<User> getFriendsList() {
+        friendsList.add(new User(10086, "DEBUG_USER", "111")); // TODO this user is for debugging
+        return friendsList;
+    }
 }
