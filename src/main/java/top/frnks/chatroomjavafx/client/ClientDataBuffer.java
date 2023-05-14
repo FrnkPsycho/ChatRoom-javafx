@@ -12,7 +12,6 @@ import java.util.List;
 public class ClientDataBuffer {
     public static User currentUser;
     public static List<User> onlineUsers;
-    public static List<User> allUsers;
     public static Socket clientSocket;
     public static ObjectInputStream objectInputStream;
     public static ObjectOutputStream objectOutputStream;

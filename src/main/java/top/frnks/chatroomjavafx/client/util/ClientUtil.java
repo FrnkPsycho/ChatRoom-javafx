@@ -3,11 +3,9 @@ package top.frnks.chatroomjavafx.client.util;
 import top.frnks.chatroomjavafx.client.ClientApplication;
 import top.frnks.chatroomjavafx.client.ClientChatRoomTab;
 import top.frnks.chatroomjavafx.client.ClientDataBuffer;
-import top.frnks.chatroomjavafx.client.ClientLogin;
 import top.frnks.chatroomjavafx.common.model.entity.ActionType;
 import top.frnks.chatroomjavafx.common.model.entity.Request;
 import top.frnks.chatroomjavafx.common.model.entity.Response;
-import top.frnks.chatroomjavafx.common.model.entity.User;
 
 import java.io.IOException;
 import java.util.logging.Logger;

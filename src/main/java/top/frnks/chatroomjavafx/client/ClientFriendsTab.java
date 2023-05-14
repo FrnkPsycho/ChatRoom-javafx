@@ -3,7 +3,6 @@ package top.frnks.chatroomjavafx.client;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
 import top.frnks.chatroomjavafx.common.model.entity.User;
 
 public class ClientFriendsTab {

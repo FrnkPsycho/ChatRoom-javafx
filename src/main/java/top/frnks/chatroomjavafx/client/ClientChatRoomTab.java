@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
+import top.frnks.chatroomjavafx.client.util.ClientAction;
 import top.frnks.chatroomjavafx.client.util.ClientUtil;
 import top.frnks.chatroomjavafx.common.model.entity.ActionType;
 import top.frnks.chatroomjavafx.common.model.entity.Message;
@@ -58,7 +59,7 @@ public class ClientChatRoomTab {
         chatRoomMessageArea.setScrollTop(Double.MAX_VALUE);
 
         chatRoomTypeSendButton.setPrefSize(200, 100);
-        chatRoomTypeSendButton.setOnAction(event -> sendMessage());
+        chatRoomTypeSendButton.setOnAction(event -> ClientAction.sendMessage());
         // TODO: send message when a combination of key pressed
 //        ClientApplication.chatRoomTab.getTabPane().getScene().setOnKeyPressed(event -> {
 //            if ( chatRoomMessageArea.isFocused() && event.getCode() == KeyCode.ALT) {
@@ -69,7 +70,7 @@ public class ClientChatRoomTab {
         // TODO: debug
         for ( int i = 0; i<9; i++ ) {
             chatRoomTypeArea.setText("a");
-            sendMessage();
+            ClientAction.sendMessage();
         }
 
         chatRoomTypeTools.getChildren().add(chatRoomTypeSendPictureButton);
@@ -80,11 +81,12 @@ public class ClientChatRoomTab {
 //        chatRoomTypePane.setVvalue(1.0);
         chatRoomTypeArea.setScrollTop(Double.MAX_VALUE);
 
-//        memberView = new ListView<>(FXCollections.observableList(ClientDataBuffer.allUsers));
+//        memberView = new ListView<>(FXCollections.observableList(ClientDataBuffer.onlineUsers));
         memberView = new ListView<>(FXCollections.observableList(members)); // TODO for debugging, use the line above this.
         memberView.setCellFactory(new UserCellFactory());
         memberView.setEditable(false);
         memberView.setPrefSize(200, 500);
+        memberView.setContextMenu(new UserListContextMenu());
 //        memberView.setContextMenu(new ContextMenu(new MenuItem("Check")));
 
         chatRoomFrame.add(chatRoomMessageArea, 0, 0);
@@ -93,42 +95,11 @@ public class ClientChatRoomTab {
         chatRoomFrame.add(chatRoomTypeSendButton, 1, 2);
         chatRoomFrame.add(memberView, 1, 0);
 
+        loadClient();
     }
 
-    static void sendMessage() {
-        String content = chatRoomTypeArea.getText();
-        if ( content.isBlank() ) {
-            Alert blankMessageAlert = new Alert(Alert.AlertType.ERROR, new TranslatableString("alert.blank_message").translate());
-            blankMessageAlert.show();
-        } else {
-            Message msg = new Message();
-//            msg.setContent(content);
-            msg.setSendTime(LocalDateTime.now());
-            msg.setFromUser(ClientDataBuffer.currentUser);
-//            msg.setToUser(); // TODO: send msg to a public broadcast user
+    public static void loadClient() {
 
-//            DateFormat df = new SimpleDateFormat("HH:mm:ss"); // TODO: make format compatible with different locale
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String sb = msg.getSendTime().format(dtf) +
-                    " " +
-                    msg.getFromUser().getNickname() +
-                    "<" + msg.getFromUser().getId() + ">" +
-                    "\n" + content + "\n";
-            msg.setContent(sb);
-
-            Request request = new Request();
-            request.setAction(ActionType.CHAT);
-            request.setAttribute("message", msg);
-            // TODO: send message to server
-//            try {
-//                ClientUtil.sendRequestWithoutResponse(request);
-//            } catch (IOException e) {
-//                e.printStackTrace(); // TODO: proper exception handling
-//            }
-
-            // TODO: ctrl+enter to send message
-            ClientUtil.appendTextToMessageArea(msg.getContent()); // TODO: debug line
-            chatRoomTypeArea.setText("");
-        }
+        new ClientThread().start();
     }
 }

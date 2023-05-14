@@ -7,5 +7,12 @@
   "client.chat.send": "Send",
   "client.chat.motd": "Welcome to the public chat room, feel free to talk!\n",
   "common.default_nickname": "Anonymous",
-  "alert.blank_message": "Cannot send blank message!"
+  "alert.blank_message": "Cannot send blank message!",
+  "alert.friend.need_selection": "Please select a user!",
+  "alert.friend.invalid_self": "You cannot add yourself to friend list!",
+  "alert.friend.already_friend": "This user is already your friend!",
+  "alert.friend.sent_request": "Successfully sent request to this user!",
+  "menu.private_chat": "Private Chat",
+  "menu.add_friend": "Request Friend",
+  "menu.delete_friend": "Delete Friend"
 }

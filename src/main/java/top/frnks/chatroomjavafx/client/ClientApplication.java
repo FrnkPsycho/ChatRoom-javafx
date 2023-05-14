@@ -7,6 +7,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import top.frnks.chatroomjavafx.common.model.entity.User;
 import top.frnks.chatroomjavafx.common.util.TranslatableString;
+import top.frnks.chatroomjavafx.server.ServerProperties;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -26,7 +27,7 @@ public class ClientApplication extends Application {
 
     @Override
     public void start(Stage stage) {
-//        connectToServer("localhost", 6657);
+        connectToServer(ServerProperties.getProperty("serverIp"), Integer.parseInt(ServerProperties.getProperty("serverPort")));
         // TODO: login to get currentUser
         ClientDataBuffer.currentUser = new User(88888, "DEBUG_CURRENT_USER", "password");
 
@@ -59,9 +60,11 @@ public class ClientApplication extends Application {
 
     public static void connectToServer(String remote, int port) {
         try {
+            LOGGER.info("Connecting to " + remote + ":" + port);
             ClientDataBuffer.clientSocket = new Socket(remote, port);
-            ClientDataBuffer.objectInputStream = new ObjectInputStream(ClientDataBuffer.clientSocket.getInputStream());
             ClientDataBuffer.objectOutputStream = new ObjectOutputStream(ClientDataBuffer.clientSocket.getOutputStream());
+            ClientDataBuffer.objectInputStream = new ObjectInputStream(ClientDataBuffer.clientSocket.getInputStream());
+            LOGGER.info("Connected to " + remote + ":" + port);
         } catch (IOException e) {
             LOGGER.warning("Unable to connect to server: \"" + remote + ":" + port + "\"");
             // TODO: loop reconnect to server
