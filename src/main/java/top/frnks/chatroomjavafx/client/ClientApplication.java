@@ -54,9 +54,9 @@ public class ClientApplication extends Application {
 
     public static void connectToServer(String remote, int port) {
         try {
-            ClientData.clientSocket = new Socket(remote, port);
-            ClientData.objectInputStream = new ObjectInputStream(ClientData.clientSocket.getInputStream());
-            ClientData.objectOutputStream = new ObjectOutputStream(ClientData.clientSocket.getOutputStream());
+            ClientDataBuffer.clientSocket = new Socket(remote, port);
+            ClientDataBuffer.objectInputStream = new ObjectInputStream(ClientDataBuffer.clientSocket.getInputStream());
+            ClientDataBuffer.objectOutputStream = new ObjectOutputStream(ClientDataBuffer.clientSocket.getOutputStream());
         } catch (IOException e) {
             LOGGER.warning("Unable to connect to server: \"" + remote + ":" + port + "\"");
             // TODO: loop reconnect to server
