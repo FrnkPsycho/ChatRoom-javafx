@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 import java.util.List;
 
 public class ClientDataBuffer {
+    public static boolean isLoggedIn = false;
     public static User currentUser;
     public static List<User> onlineUsers;
     public static Socket clientSocket;

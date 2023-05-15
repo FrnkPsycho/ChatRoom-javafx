@@ -45,11 +45,24 @@ public class RequestProcessor implements Runnable {
                 switch (actionType) {
                     case CHAT -> chat();
                     case FRIEND_REQUEST -> friendRequest();
+                    case LOGIN -> login();
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void login() throws IOException {
+        String id = (String) request.getAttribute("id");
+        String password = (String) request.getAttribute("password");
+        // TODO: check database
+
+        Response response = new Response();
+        // TODO: login response
+
+        Message msg = (Message) request.getAttribute("Message");
+
     }
 
     private void chat() throws IOException {

@@ -1,5 +1,10 @@
 {
   "client.window.title": "JavaFX Chat Room",
+  "client.window.login_title": "Login",
+  "client.login.label.id": "ID: ",
+  "client.login.label.password": "Password: ",
+  "client.login.button.login": "Login",
+  "client.login.button.signup": "Signup",
   "client.tab.profile": "Profile",
   "client.tab.chat_room": "Chat Room",
   "client.tab.friends": "Friends",

@@ -8,6 +8,11 @@ import top.frnks.chatroomjavafx.common.model.entity.Request;
 import top.frnks.chatroomjavafx.common.model.entity.Response;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.HexFormat;
 import java.util.logging.Logger;
 
 public class ClientUtil {
@@ -49,6 +54,23 @@ public class ClientUtil {
     public static void appendTextToMessageArea(String text) {
         ClientChatRoomTab.chatRoomMessageArea.appendText("\n" + text);
 
+    }
+
+    public static String digestPassword(String rawPassword) {
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+
+        MessageDigest digest = null;
+        try {
+            digest = MessageDigest.getInstance("SHA-512");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        digest.update(salt);
+
+        byte[] hashedPassword = digest.digest(rawPassword.getBytes(StandardCharsets.UTF_8));
+        return HexFormat.of().formatHex(hashedPassword);
     }
 
 //    public static void appendTextToMessageArea(String text, User user) {

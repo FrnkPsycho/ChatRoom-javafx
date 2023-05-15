@@ -94,12 +94,6 @@ public class ClientChatRoomTab {
         chatRoomFrame.add(chatRoomTypeArea, 0, 2);
         chatRoomFrame.add(chatRoomTypeSendButton, 1, 2);
         chatRoomFrame.add(memberView, 1, 0);
-
-        loadClient();
     }
 
-    public static void loadClient() {
-
-        new ClientThread().start();
-    }
 }

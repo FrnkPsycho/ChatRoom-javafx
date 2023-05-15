@@ -27,10 +27,13 @@ public class ClientApplication extends Application {
 
     @Override
     public void start(Stage stage) {
-        // TODO: login to get currentUser
-        ClientDataBuffer.currentUser = new User(88888, "DEBUG_CURRENT_USER", "password");
+        loadClient();
+        ClientLogin.showWindow();
+        while (!ClientDataBuffer.isLoggedIn) {
+            LOGGER.info("Burp");
+        }
+//        // TODO: login to get currentUser
 
-        // TODO: uncomment this after server code is done.
         mainRoot.getChildren().add(mainTabsRoot);
 
         profileTab.setClosable(false);
@@ -51,9 +54,15 @@ public class ClientApplication extends Application {
         stage.setScene(mainScene);
         stage.show();
 
+
     }
 
     public static void main(String[] args) {
         launch();
+    }
+
+
+    public static void loadClient() {
+        new ClientThread().start();
     }
 }

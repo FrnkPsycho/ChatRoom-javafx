@@ -4,4 +4,6 @@ public enum ActionType {
     CHAT,
     EXIT,
     FRIEND_REQUEST,
+    LOGIN,
+
 }
