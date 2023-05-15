@@ -68,10 +68,10 @@ public class ClientChatRoomTab {
 //        });
 
         // TODO: debug
-        for ( int i = 0; i<9; i++ ) {
-            chatRoomTypeArea.setText("a");
-            ClientAction.sendMessage();
-        }
+//        for ( int i = 0; i<9; i++ ) {
+//            chatRoomTypeArea.setText("a");
+//            ClientAction.sendMessage();
+//        }
 
         chatRoomTypeTools.getChildren().add(chatRoomTypeSendPictureButton);
 

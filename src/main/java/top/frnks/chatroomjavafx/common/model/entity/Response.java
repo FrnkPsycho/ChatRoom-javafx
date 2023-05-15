@@ -1,10 +1,11 @@
 package top.frnks.chatroomjavafx.common.model.entity;
 
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Response {
+public class Response implements Serializable {
     private ResponseType responseType;
     private ResponseStatus responseStatus;
     private Map<String, Object> dataMap;

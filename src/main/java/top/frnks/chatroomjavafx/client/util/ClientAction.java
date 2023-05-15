@@ -24,7 +24,8 @@ public class ClientAction {
 //            msg.setContent(content);
             msg.setSendTime(LocalDateTime.now());
             msg.setFromUser(ClientDataBuffer.currentUser);
-//            msg.setToUser(); // TODO: send msg to a public broadcast user
+            msg.setToUser(null);
+//            msg.setToUser(); // TODO: if ToUser is null means the message broadcasts.
 
 //            DateFormat df = new SimpleDateFormat("HH:mm:ss"); // TODO: make format compatible with different locale
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -37,17 +38,16 @@ public class ClientAction {
 
             Request request = new Request();
             request.setAction(ActionType.CHAT);
-            request.setAttribute("message", msg);
-            // TODO: send message to server
-//            try {
-//                ClientUtil.sendRequestWithoutResponse(request);
-//            } catch (IOException e) {
-//                e.printStackTrace(); // TODO: proper exception handling
-//            }
+            request.setAttribute("Message", msg);
+            try {
+                ClientUtil.sendRequestWithoutResponse(request);
+            } catch (IOException e) {
+                e.printStackTrace(); // TODO: proper exception handling
+            }
 
             // TODO: ctrl+enter to send message
-            ClientUtil.appendTextToMessageArea(msg.getContent()); // TODO: debug line
-            ClientChatRoomTab.chatRoomTypeArea.setText("");
+//            ClientUtil.appendTextToMessageArea(msg.getContent()); // TODO: debug line
+//            ClientChatRoomTab.chatRoomTypeArea.setText("");
         }
     }
 

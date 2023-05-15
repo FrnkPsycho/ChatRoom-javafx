@@ -7,7 +7,7 @@ public enum ResponseType {
     CHAT,
     BROADCAST,
     REMOVE,
-    FRIEND_INVITE,
-    AGREE_FRIEND_INVITE,
+    FRIEND_REQUEST,
+    AGREE_FRIEND_REQUEST,
     AGREE_FRIEND_DELETE,
 }

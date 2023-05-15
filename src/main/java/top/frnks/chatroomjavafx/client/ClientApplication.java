@@ -27,7 +27,6 @@ public class ClientApplication extends Application {
 
     @Override
     public void start(Stage stage) {
-        connectToServer(ServerProperties.getProperty("serverIp"), Integer.parseInt(ServerProperties.getProperty("serverPort")));
         // TODO: login to get currentUser
         ClientDataBuffer.currentUser = new User(88888, "DEBUG_CURRENT_USER", "password");
 
@@ -56,19 +55,5 @@ public class ClientApplication extends Application {
 
     public static void main(String[] args) {
         launch();
-    }
-
-    public static void connectToServer(String remote, int port) {
-        try {
-            LOGGER.info("Connecting to " + remote + ":" + port);
-            ClientDataBuffer.clientSocket = new Socket(remote, port);
-            ClientDataBuffer.objectOutputStream = new ObjectOutputStream(ClientDataBuffer.clientSocket.getOutputStream());
-            ClientDataBuffer.objectInputStream = new ObjectInputStream(ClientDataBuffer.clientSocket.getInputStream());
-            LOGGER.info("Connected to " + remote + ":" + port);
-        } catch (IOException e) {
-            LOGGER.warning("Unable to connect to server: \"" + remote + ":" + port + "\"");
-            // TODO: loop reconnect to server
-        }
-
     }
 }
