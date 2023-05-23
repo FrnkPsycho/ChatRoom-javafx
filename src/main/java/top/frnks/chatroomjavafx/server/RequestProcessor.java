@@ -79,11 +79,11 @@ public class RequestProcessor implements Runnable {
             sendResponse(from, response);
             sendResponse(to, response);
         } else { // public chat
-            for ( Long id: ServerDataBuffer.onlineClientIOCacheMap.keySet() ) {
-                sendResponse(ServerDataBuffer.onlineClientIOCacheMap.get(id), response);
-            }
-            LOGGER.info("Broadcast response: " + response.getResponseType());
-//            broadcastResponse(response);
+//            for ( Long id: ServerDataBuffer.onlineClientIOCacheMap.keySet() ) {
+//                sendResponse(ServerDataBuffer.onlineClientIOCacheMap.get(id), response);
+//            }
+//            LOGGER.info("Broadcast response: " + response.getResponseType());
+            broadcastResponse(response);
         }
     }
 

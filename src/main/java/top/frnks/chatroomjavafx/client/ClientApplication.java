@@ -30,7 +30,7 @@ public class ClientApplication extends Application {
         loadClient();
         ClientLogin.showWindow();
         while (!ClientDataBuffer.isLoggedIn) {
-            LOGGER.info("Burp");
+            // TODO: avoid busy wait
         }
 //        // TODO: login to get currentUser
 
