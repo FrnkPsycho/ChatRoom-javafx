@@ -6,5 +6,6 @@ public enum ActionType {
     FRIEND_REQUEST,
     LOGIN,
     SIGNUP,
+    LOGOUT,
 
 }

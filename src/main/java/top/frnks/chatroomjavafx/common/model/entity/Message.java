@@ -5,8 +5,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class Message implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 101L;
+//    @Serial
+//    private static final long serialVersionUID = 2L;
     private User fromUser;
     private User toUser; // TODO: define a public broadcast user
     private String content;

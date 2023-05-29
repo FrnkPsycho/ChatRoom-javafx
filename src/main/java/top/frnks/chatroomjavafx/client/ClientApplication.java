@@ -5,6 +5,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import top.frnks.chatroomjavafx.client.util.ClientUtil;
+import top.frnks.chatroomjavafx.common.model.entity.ActionType;
+import top.frnks.chatroomjavafx.common.model.entity.Request;
+import top.frnks.chatroomjavafx.common.model.entity.Response;
 import top.frnks.chatroomjavafx.common.model.entity.User;
 import top.frnks.chatroomjavafx.common.util.TranslatableString;
 import top.frnks.chatroomjavafx.server.ServerProperties;
@@ -55,6 +59,14 @@ public class ClientApplication extends Application {
         stage.show();
 
 
+    }
+
+    @Override
+    public void stop() throws Exception {
+        Request request = new Request();
+        request.setAction(ActionType.LOGOUT);
+        request.setAttribute("user", ClientDataBuffer.currentUser);
+        ClientUtil.sendRequestWithoutResponse(request);
     }
 
     public static void main(String[] args) {

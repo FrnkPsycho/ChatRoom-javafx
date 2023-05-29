@@ -1,10 +1,13 @@
 package top.frnks.chatroomjavafx.common.model.entity;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Request implements Serializable {
+//    @Serial
+//    private static final long serialVersionUID = 3L;
     private ResponseType responseType;
     private ActionType action;
     private Map<String, Object> attributeMap;

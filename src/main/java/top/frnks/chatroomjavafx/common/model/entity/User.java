@@ -12,12 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 100L;
+//    @Serial
+//    private static final long serialVersionUID = 1L;
     private long id;
     private String nickname;
-    private String password; // salted password
-    private byte[] passwordSalt;
+    private final String password;
+    private final byte[] passwordSalt;
     // TODO: avatar
     private Gender gender;
     private List<User> friendsList = new ArrayList<>(50);
@@ -115,5 +115,9 @@ public class User implements Serializable {
         // TODO: debug
         friendsList.add(new User(10086, "DEBUG_USER", "111")); // TODO this user is for debugging
         return friendsList;
+    }
+
+    public byte[] getPasswordSalt() {
+        return passwordSalt;
     }
 }

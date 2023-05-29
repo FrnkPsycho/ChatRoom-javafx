@@ -1,12 +1,11 @@
 package top.frnks.chatroomjavafx.client.util;
 
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import top.frnks.chatroomjavafx.client.ClientChatRoomTab;
 import top.frnks.chatroomjavafx.client.ClientDataBuffer;
-import top.frnks.chatroomjavafx.common.model.entity.ActionType;
-import top.frnks.chatroomjavafx.common.model.entity.Message;
-import top.frnks.chatroomjavafx.common.model.entity.Request;
-import top.frnks.chatroomjavafx.common.model.entity.User;
+import top.frnks.chatroomjavafx.client.ClientLogin;
+import top.frnks.chatroomjavafx.common.model.entity.*;
 import top.frnks.chatroomjavafx.common.util.TranslatableString;
 
 import java.io.IOException;
@@ -14,6 +13,55 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class ClientAction {
+//    public static void loginRequest(String id, String nickname, String password) {
+//        if ( ClientDataBuffer.clientSocket == null ) {
+//            Alert alert = new Alert(Alert.AlertType.ERROR, new TranslatableString("client.login.no_connection").translate());
+//            alert.show();
+//            return;
+//        }
+//        if ( (id.isBlank() && nickname.isBlank()) || password.isBlank() ) {
+//            Alert alert = new Alert(Alert.AlertType.ERROR, new TranslatableString("client.login.login_missing_fields").translate());
+//            alert.show();
+//            return;
+//        }
+//
+//        Request request = new Request();
+//        request.setAction(ActionType.LOGIN);
+//        request.setAttribute("id", id);
+//        request.setAttribute("nickname", nickname);
+//        request.setAttribute("password", password);
+//
+////        Response response;
+////        try {
+////            response = ClientUtil.sendRequestWithResponse(request);
+////        } catch (IOException e) {
+////            throw new RuntimeException(e);
+////        }
+//        try {
+//            ClientUtil.sendRequestWithoutResponse(request);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//
+//    }
+//
+//    public static void loginResponseHandle(Response response) {
+//        User user = (User) response.getData("user");
+//        if ( response.getResponseType() == ResponseType.INVALID_LOGIN ) {
+//            ClientUtil.popAlert(Alert.AlertType.ERROR, "client.login.login_failed");
+//            return;
+//        } else if ( response.getResponseType() == ResponseType.ALREADY_LOGON ) {
+//            ClientUtil.popAlert(Alert.AlertType.ERROR, "client.login.already_logon");
+//        }
+//
+//        user.setOnline(true);
+//        ClientUtil.appendTextToMessageArea("\nHello user: " + user.getNickname() + " <" + user.getId() + ">\n");
+//        ClientDataBuffer.currentUser = user;
+//        ClientDataBuffer.isLoggedIn = true;
+//
+//        Platform.runLater(ClientLogin.stage::close);
+//    }
     public static void sendMessage() {
         String content = ClientChatRoomTab.chatRoomTypeArea.getText();
         if ( content.isBlank() ) {
@@ -38,7 +86,7 @@ public class ClientAction {
 
             Request request = new Request();
             request.setAction(ActionType.CHAT);
-            request.setAttribute("Message", msg);
+            request.setAttribute("msg", msg);
             try {
                 ClientUtil.sendRequestWithoutResponse(request);
             } catch (IOException e) {
@@ -65,7 +113,7 @@ public class ClientAction {
             msg.setSendTime(LocalDateTime.now());
             Request request = new Request();
             request.setAction(ActionType.FRIEND_REQUEST);
-            request.setAttribute("Message", msg);
+            request.setAttribute("msg", msg);
             try {
                 ClientUtil.sendRequestWithoutResponse(request);
             } catch (IOException e) {

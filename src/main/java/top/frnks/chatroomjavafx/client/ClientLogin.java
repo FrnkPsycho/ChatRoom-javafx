@@ -6,11 +6,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import top.frnks.chatroomjavafx.client.util.ClientAction;
 import top.frnks.chatroomjavafx.client.util.ClientUtil;
-import top.frnks.chatroomjavafx.common.model.entity.ActionType;
-import top.frnks.chatroomjavafx.common.model.entity.Request;
-import top.frnks.chatroomjavafx.common.model.entity.Response;
-import top.frnks.chatroomjavafx.common.model.entity.User;
+import top.frnks.chatroomjavafx.common.model.entity.*;
 import top.frnks.chatroomjavafx.common.util.PasswordUtil;
 import top.frnks.chatroomjavafx.common.util.TranslatableString;
 
@@ -61,53 +59,81 @@ public class ClientLogin {
         stage.setScene(scene);
         stage.showAndWait();
     }
-    private static void login() {
-//        if ( ClientDataBuffer.clientSocket == null ) {
-//            Alert alert = new Alert(Alert.AlertType.ERROR, "Unable to connect server, try again.");
-//            alert.show();
-//            return;
-//        }
+    public static void login() {
+        if ( ClientDataBuffer.clientSocket == null ) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, new TranslatableString("client.login.no_connection").translate());
+            alert.show();
+            return;
+        }
+        if ( (idField.getText().isBlank() && nicknameField.getText().isBlank()) || passwordField.getText().isBlank() ) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, new TranslatableString("client.login.login_missing_fields").translate());
+            alert.show();
+            return;
+        }
 
         Request request = new Request();
         request.setAction(ActionType.LOGIN);
         request.setAttribute("id", idField.getText());
-        request.setAttribute("password", PasswordUtil.digestPassword(passwordField.getText()));
         request.setAttribute("nickname", nicknameField.getText());
+        request.setAttribute("password", passwordField.getText());
 
-        Response response = null;
+        Response response;
         try {
             response = ClientUtil.sendRequestWithResponse(request);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        // TODO: read response
+        User user = (User) response.getData("user");
+        if ( response.getResponseType() == ResponseType.INVALID_LOGIN ) {
+            ClientUtil.popAlert(Alert.AlertType.ERROR, "client.login.login_failed");
+            return;
+        } else if ( response.getResponseType() == ResponseType.ALREADY_LOGON ) {
+            ClientUtil.popAlert(Alert.AlertType.ERROR, "client.login.already_logon");
+        }
 
-        // TODO: debug
-        ClientDataBuffer.currentUser = new User(88888, "YOU", "1234");
+        user.setOnline(true);
+        ClientUtil.appendTextToMessageArea("\nHello user: " + user.getNickname() + " <" + user.getId() + ">\n");
+        ClientDataBuffer.currentUser = user;
         ClientDataBuffer.isLoggedIn = true;
         stage.close();
     }
 
-    private static void signup() {
+    public static void signup() {
         if ( ClientDataBuffer.clientSocket == null ) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Unable to connect server, try again.");
-            alert.show();
+            ClientUtil.popAlert(Alert.AlertType.ERROR, "client.login.no_connection");
+            return;
+        }
+
+        // fields check
+        if ( nicknameField.getText().isBlank() || passwordField.getText().isBlank() ) {
+            ClientUtil.popAlert(Alert.AlertType.ERROR, "client.login.signup_missing_fields");
             return;
         }
 
         Request request = new Request();
         request.setAction(ActionType.SIGNUP);
         request.setAttribute("nickname", nicknameField.getText());
-        request.setAttribute("password", PasswordUtil.digestPassword(passwordField.getText()));
+        request.setAttribute("password", passwordField.getText());
 
-        Response response = null;
+        Response response;
         try {
             response = ClientUtil.sendRequestWithResponse(request);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        // TODO: read response
+        User user = (User) response.getData("user");
+        if ( user == null ) {
+            ClientUtil.popAlert(Alert.AlertType.ERROR, "client.login.registered");
+            return;
+        }
+
+        ClientUtil.popAlert(Alert.AlertType.INFORMATION, "client.login.signup_success");
+        ClientUtil.appendTextToMessageArea("\nHello new user: " + user.getNickname() + ", we have allocate an ID for you: " + user.getId() + ", keep in mind!");
+//        login();
+//        ClientDataBuffer.currentUser = user;
+//        ClientDataBuffer.isLoggedIn = true;
+//        stage.close();
     }
 }

@@ -13,9 +13,9 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Logger;
 
-/*
-* TODO: ClientThread is for communicating with server and updating GUI contents
-* */
+/**
+ * ClientThread is for communicating with server and updating GUI contents.
+ */
 public class ClientThread extends Thread {
     public static final Logger LOGGER = ClientApplication.LOGGER;
     @Override
@@ -28,6 +28,7 @@ public class ClientThread extends Thread {
                 Response response = (Response) ClientDataBuffer.objectInputStream.readObject();
                 ResponseType responseType = response.getResponseType();
                 LOGGER.info("Received response from server: " + response + " " + responseType);
+                // FIXME: 5/29/23 Unable to receive response from server
 
                 switch (responseType) {
                     case BROADCAST -> {
@@ -36,6 +37,8 @@ public class ClientThread extends Thread {
                         // TODO: chat records
                         LOGGER.info("Update public board with chat message: " + message.getContent());
                     }
+//                    case ALREADY_LOGON, INVALID_LOGIN, LOGIN -> ClientLogin.login();
+//                    case SIGNUP ->
                 }
             }
         } catch ( IOException e ) {
