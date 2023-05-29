@@ -11,6 +11,7 @@ import top.frnks.chatroomjavafx.common.model.entity.ActionType;
 import top.frnks.chatroomjavafx.common.model.entity.Request;
 import top.frnks.chatroomjavafx.common.model.entity.Response;
 import top.frnks.chatroomjavafx.common.model.entity.User;
+import top.frnks.chatroomjavafx.common.util.PasswordUtil;
 import top.frnks.chatroomjavafx.common.util.TranslatableString;
 
 import java.io.IOException;
@@ -61,16 +62,17 @@ public class ClientLogin {
         stage.showAndWait();
     }
     private static void login() {
-        if ( ClientDataBuffer.clientSocket == null ) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Unable to connect server, try again.");
-            alert.show();
-            return;
-        }
+//        if ( ClientDataBuffer.clientSocket == null ) {
+//            Alert alert = new Alert(Alert.AlertType.ERROR, "Unable to connect server, try again.");
+//            alert.show();
+//            return;
+//        }
 
         Request request = new Request();
         request.setAction(ActionType.LOGIN);
         request.setAttribute("id", idField.getText());
-        request.setAttribute("password", ClientUtil.digestPassword(passwordField.getText()));
+        request.setAttribute("password", PasswordUtil.digestPassword(passwordField.getText()));
+        request.setAttribute("nickname", nicknameField.getText());
 
         Response response = null;
         try {
@@ -97,7 +99,7 @@ public class ClientLogin {
         Request request = new Request();
         request.setAction(ActionType.SIGNUP);
         request.setAttribute("nickname", nicknameField.getText());
-        request.setAttribute("password", ClientUtil.digestPassword(passwordField.getText()));
+        request.setAttribute("password", PasswordUtil.digestPassword(passwordField.getText()));
 
         Response response = null;
         try {

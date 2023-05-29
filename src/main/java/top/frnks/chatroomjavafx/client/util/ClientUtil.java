@@ -56,22 +56,7 @@ public class ClientUtil {
 
     }
 
-    public static String digestPassword(String rawPassword) {
-        SecureRandom random = new SecureRandom();
-        byte[] salt = new byte[16];
-        random.nextBytes(salt);
 
-        MessageDigest digest = null;
-        try {
-            digest = MessageDigest.getInstance("SHA-512");
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-        digest.update(salt);
-
-        byte[] hashedPassword = digest.digest(rawPassword.getBytes(StandardCharsets.UTF_8));
-        return HexFormat.of().formatHex(hashedPassword);
-    }
 
 //    public static void appendTextToMessageArea(String text, User user) {
 //        ClientChatRoomTab.chatRoomMessageArea.setText(ClientChatRoomTab.chatRoomMessageArea.getText() + "\n" + text);

@@ -31,7 +31,7 @@ public class ServerProperties {
 
     public static void saveProperty() throws IOException {
         properties.store(new FileOutputStream(
-                ClientApplication.class.getClassLoader().getResource("server.properties").getPath()
+                ServerApplication.class.getClassLoader().getResource("server.properties").getPath()
         ), "Properties created by program at " + LocalDateTime.now()
         );
     }
