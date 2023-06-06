@@ -1,26 +1,15 @@
 package top.frnks.chatroomjavafx.client;
 
 import javafx.collections.FXCollections;
-import javafx.geometry.Pos;
+import javafx.collections.ObservableList;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
 import top.frnks.chatroomjavafx.client.util.ClientAction;
-import top.frnks.chatroomjavafx.client.util.ClientUtil;
-import top.frnks.chatroomjavafx.common.model.entity.ActionType;
-import top.frnks.chatroomjavafx.common.model.entity.Message;
-import top.frnks.chatroomjavafx.common.model.entity.Request;
 import top.frnks.chatroomjavafx.common.model.entity.User;
 import top.frnks.chatroomjavafx.common.util.TranslatableString;
 
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class ClientChatRoomTab {
@@ -32,7 +21,8 @@ public class ClientChatRoomTab {
     public static final TilePane chatRoomTypeTools = new TilePane();
     public static final TextArea chatRoomTypeArea = new TextArea();
 //    public static final ScrollPane chatRoomTypePane = new ScrollPane(chatRoomTypeArea);
-    public static final ListView<User> memberView;
+//    public static final ObservableList<User> onlineUserList = FXCollections.observableList(ClientDataBuffer.onlineUsers);
+    public static final ListView<User> onlineUserListView = new ListView<>();
 
     static {
 
@@ -81,19 +71,20 @@ public class ClientChatRoomTab {
 //        chatRoomTypePane.setVvalue(1.0);
         chatRoomTypeArea.setScrollTop(Double.MAX_VALUE);
 
-//        memberView = new ListView<>(FXCollections.observableList(ClientDataBuffer.onlineUsers));
-        memberView = new ListView<>(FXCollections.observableList(members)); // TODO for debugging, use the line above this.
-        memberView.setCellFactory(new UserCellFactory());
-        memberView.setEditable(false);
-        memberView.setPrefSize(200, 500);
-        memberView.setContextMenu(new UserListContextMenu());
+        onlineUserListView.setItems(null);
+        onlineUserListView.setItems(ClientDataBuffer.onlineUsersList);
+//        memberView = new ListView<>(FXCollections.observableList(members)); // TODO for debugging, use the line above this.
+        onlineUserListView.setCellFactory(new UserCellFactory());
+        onlineUserListView.setEditable(false);
+        onlineUserListView.setPrefSize(200, 500);
+        onlineUserListView.setContextMenu(new UserListContextMenu());
 //        memberView.setContextMenu(new ContextMenu(new MenuItem("Check")));
 
         chatRoomFrame.add(chatRoomMessageArea, 0, 0);
         chatRoomFrame.add(chatRoomTypeTools, 0, 1);
         chatRoomFrame.add(chatRoomTypeArea, 0, 2);
         chatRoomFrame.add(chatRoomTypeSendButton, 1, 2);
-        chatRoomFrame.add(memberView, 1, 0);
+        chatRoomFrame.add(onlineUserListView, 1, 0);
     }
 
 }

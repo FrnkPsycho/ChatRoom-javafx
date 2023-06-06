@@ -116,7 +116,7 @@ public class RequestProcessor implements Runnable {
             response.setResponseType(ResponseType.LOGIN);
             response.setResponseStatus(ResponseStatus.OK);
             // Successfully logon
-            ServerDataBuffer.onlineUsersMap.put(user.getId(), user);
+            ServerDataBuffer.onlineUsersMap.putIfAbsent(user.getId(), user);
 
             // add login user to cache map
             ServerDataBuffer.onlineClientIOCacheMap.put(user.getId(), currentClientIO);

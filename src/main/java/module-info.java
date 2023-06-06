@@ -13,7 +13,7 @@ module top.frnks.chatroomjavafx {
 
     exports top.frnks.chatroomjavafx.client;
     exports top.frnks.chatroomjavafx.common.type;
-//    exports top.frnks.chatroomjavafx.common.util;
+    exports top.frnks.chatroomjavafx.common.util;
     exports top.frnks.chatroomjavafx.common.model.entity;
     opens top.frnks.chatroomjavafx.client to javafx.fxml;
 }

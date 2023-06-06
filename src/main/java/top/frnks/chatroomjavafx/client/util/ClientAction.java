@@ -9,6 +9,8 @@ import top.frnks.chatroomjavafx.common.util.TranslatableString;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static top.frnks.chatroomjavafx.client.ClientLogin.stage;
 
@@ -18,6 +20,8 @@ public class ClientAction {
             User loginUser = (User) response.getData("loginUser");
             ClientUtil.appendTextToMessageArea(loginUser.getDisplayName() + new TranslatableString("client.chat.online").translate());
 
+            ClientDataBuffer.onlineUsersList.add(loginUser);
+            ClientChatRoomTab.onlineUserListView.refresh();
             // TODO: set new online users list
         }
     }
@@ -37,6 +41,7 @@ public class ClientAction {
 
     public static void loginResponseHandler(Response response) {
         User user = (User) response.getData("user");
+
         if ( response.getResponseType() == ResponseType.INVALID_LOGIN ) {
             ClientUtil.popAlert(Alert.AlertType.ERROR, "client.login.login_failed");
         } else if ( response.getResponseType() == ResponseType.ALREADY_LOGON ) {
@@ -44,6 +49,8 @@ public class ClientAction {
         } else {
             user.setOnline(true);
 //        ClientUtil.appendTextToMessageArea("\nHello user: " + user.getNickname() + " <" + user.getId() + ">\n");
+            ClientDataBuffer.onlineUsers = (CopyOnWriteArrayList<User>) response.getData("onlineUsers");
+            ClientDataBuffer.onlineUsersList.setAll(ClientDataBuffer.onlineUsers);
             ClientDataBuffer.currentUser = user;
             ClientDataBuffer.isLoggedIn = true;
             Platform.runLater(stage::close);
@@ -52,6 +59,7 @@ public class ClientAction {
 
     public static void sendMessage() {
         String content = ClientChatRoomTab.chatRoomTypeArea.getText();
+        ClientChatRoomTab.chatRoomTypeArea.setText("");
         if ( content.isBlank() ) {
             Alert blankMessageAlert = new Alert(Alert.AlertType.ERROR, new TranslatableString("alert.blank_message").translate());
             blankMessageAlert.show();
@@ -87,8 +95,6 @@ public class ClientAction {
             }
 
             // TODO: ctrl+enter to send message
-//            ClientUtil.appendTextToMessageArea(msg.getContent()); // TODO: debug line
-//            ClientChatRoomTab.chatRoomTypeArea.setText("");
         }
     }
 

@@ -3,7 +3,6 @@ package top.frnks.chatroomjavafx.client;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import top.frnks.chatroomjavafx.client.util.ClientAction;
-import top.frnks.chatroomjavafx.client.util.ClientUtil;
 import top.frnks.chatroomjavafx.common.model.entity.User;
 import top.frnks.chatroomjavafx.common.util.TranslatableString;
 
@@ -15,7 +14,7 @@ public class UserListContextMenu extends ContextMenu {
 
     static {
         addFriendMenuItem.setOnAction(event -> {
-            User target = ClientChatRoomTab.memberView.getSelectionModel().getSelectedItem();
+            User target = ClientChatRoomTab.onlineUserListView.getSelectionModel().getSelectedItem();
             ClientAction.addFriend(target);
             System.out.println("Sent request!");
         });
