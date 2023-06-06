@@ -1,7 +1,6 @@
 package top.frnks.chatroomjavafx.common.model.entity;
 
 import top.frnks.chatroomjavafx.client.ClientApplication;
-import top.frnks.chatroomjavafx.client.util.ClientUtil;
 import top.frnks.chatroomjavafx.common.type.Gender;
 import top.frnks.chatroomjavafx.common.util.PasswordUtil;
 import top.frnks.chatroomjavafx.common.util.TranslatableString;
@@ -12,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User implements Serializable {
-//    @Serial
-//    private static final long serialVersionUID = 1L;
+    @Serial
+    private static final long serialVersionUID = -6864234458792116162L;
     private long id;
     private String nickname;
     private final String password;
@@ -119,5 +118,9 @@ public class User implements Serializable {
 
     public byte[] getPasswordSalt() {
         return passwordSalt;
+    }
+
+    public String getDisplayName() {
+        return this.nickname + " <" + this.id + ">";
     }
 }

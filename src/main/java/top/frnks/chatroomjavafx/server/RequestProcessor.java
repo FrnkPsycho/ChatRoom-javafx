@@ -68,6 +68,7 @@ public class RequestProcessor implements Runnable {
 
         Response response = new Response();
         response.setResponseType(ResponseType.LOGOUT);
+        response.setResponseStatus(ResponseStatus.OK);
         response.setData("user", user);
         broadcastResponse(response);
 
@@ -113,6 +114,7 @@ public class RequestProcessor implements Runnable {
             response.setResponseType(ResponseType.ALREADY_LOGON);
         } else {
             response.setResponseType(ResponseType.LOGIN);
+            response.setResponseStatus(ResponseStatus.OK);
             // Successfully logon
             ServerDataBuffer.onlineUsersMap.put(user.getId(), user);
 
@@ -128,6 +130,7 @@ public class RequestProcessor implements Runnable {
             // broadcast online
             Response response1 = new Response();
             response1.setResponseType(ResponseType.BROADCAST);
+            response1.setResponseStatus(ResponseStatus.OK);
             response1.setData("loginUser", user);
             response1.setData("onlineUsers", new CopyOnWriteArrayList<>(ServerDataBuffer.onlineUsersMap.values()));
             broadcastResponse(response1);

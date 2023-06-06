@@ -13,6 +13,14 @@ import java.time.format.DateTimeFormatter;
 import static top.frnks.chatroomjavafx.client.ClientLogin.stage;
 
 public class ClientAction {
+    public static void broadcastResponseHandler(Response response) {
+        if ( response.getResponseStatus() == ResponseStatus.OK ) {
+            User loginUser = (User) response.getData("loginUser");
+            ClientUtil.appendTextToMessageArea(loginUser.getDisplayName() + new TranslatableString("client.chat.online").translate());
+
+            // TODO: set new online users list
+        }
+    }
     public static void signupResponseHandler(Response response) {
         if ( response.getResponseStatus() == ResponseStatus.OK ) {
             User user = (User) response.getData("user");
@@ -31,16 +39,15 @@ public class ClientAction {
         User user = (User) response.getData("user");
         if ( response.getResponseType() == ResponseType.INVALID_LOGIN ) {
             ClientUtil.popAlert(Alert.AlertType.ERROR, "client.login.login_failed");
-            return;
         } else if ( response.getResponseType() == ResponseType.ALREADY_LOGON ) {
             ClientUtil.popAlert(Alert.AlertType.ERROR, "client.login.already_logon");
+        } else {
+            user.setOnline(true);
+//        ClientUtil.appendTextToMessageArea("\nHello user: " + user.getNickname() + " <" + user.getId() + ">\n");
+            ClientDataBuffer.currentUser = user;
+            ClientDataBuffer.isLoggedIn = true;
+            Platform.runLater(stage::close);
         }
-
-        user.setOnline(true);
-        ClientUtil.appendTextToMessageArea("\nHello user: " + user.getNickname() + " <" + user.getId() + ">\n");
-        ClientDataBuffer.currentUser = user;
-        ClientDataBuffer.isLoggedIn = true;
-        Platform.runLater(stage::close);
     }
 
     public static void sendMessage() {
