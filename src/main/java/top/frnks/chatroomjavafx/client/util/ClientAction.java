@@ -2,9 +2,7 @@ package top.frnks.chatroomjavafx.client.util;
 
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
-import top.frnks.chatroomjavafx.client.ClientChatRoomTab;
-import top.frnks.chatroomjavafx.client.ClientDataBuffer;
-import top.frnks.chatroomjavafx.client.ClientLogin;
+import top.frnks.chatroomjavafx.client.*;
 import top.frnks.chatroomjavafx.common.model.entity.*;
 import top.frnks.chatroomjavafx.common.util.TranslatableString;
 
@@ -12,56 +10,39 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static top.frnks.chatroomjavafx.client.ClientLogin.stage;
+
 public class ClientAction {
-//    public static void loginRequest(String id, String nickname, String password) {
-//        if ( ClientDataBuffer.clientSocket == null ) {
-//            Alert alert = new Alert(Alert.AlertType.ERROR, new TranslatableString("client.login.no_connection").translate());
-//            alert.show();
-//            return;
-//        }
-//        if ( (id.isBlank() && nickname.isBlank()) || password.isBlank() ) {
-//            Alert alert = new Alert(Alert.AlertType.ERROR, new TranslatableString("client.login.login_missing_fields").translate());
-//            alert.show();
-//            return;
-//        }
-//
-//        Request request = new Request();
-//        request.setAction(ActionType.LOGIN);
-//        request.setAttribute("id", id);
-//        request.setAttribute("nickname", nickname);
-//        request.setAttribute("password", password);
-//
-////        Response response;
-////        try {
-////            response = ClientUtil.sendRequestWithResponse(request);
-////        } catch (IOException e) {
-////            throw new RuntimeException(e);
-////        }
-//        try {
-//            ClientUtil.sendRequestWithoutResponse(request);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//
-//    }
-//
-//    public static void loginResponseHandle(Response response) {
-//        User user = (User) response.getData("user");
-//        if ( response.getResponseType() == ResponseType.INVALID_LOGIN ) {
-//            ClientUtil.popAlert(Alert.AlertType.ERROR, "client.login.login_failed");
-//            return;
-//        } else if ( response.getResponseType() == ResponseType.ALREADY_LOGON ) {
-//            ClientUtil.popAlert(Alert.AlertType.ERROR, "client.login.already_logon");
-//        }
-//
-//        user.setOnline(true);
-//        ClientUtil.appendTextToMessageArea("\nHello user: " + user.getNickname() + " <" + user.getId() + ">\n");
-//        ClientDataBuffer.currentUser = user;
-//        ClientDataBuffer.isLoggedIn = true;
-//
-//        Platform.runLater(ClientLogin.stage::close);
-//    }
+    public static void signupResponseHandler(Response response) {
+        if ( response.getResponseStatus() == ResponseStatus.OK ) {
+            User user = (User) response.getData("user");
+            if ( user == null ) {
+                ClientUtil.popAlert(Alert.AlertType.ERROR, "client.login.registered");
+                return;
+            }
+
+            ClientUtil.popAlert(Alert.AlertType.INFORMATION, "client.login.signup_success");
+            ClientUtil.appendTextToMessageArea("\nHello new user: " + user.getNickname() + ", we have allocate an ID for you: " + user.getId() + ", keep in mind!");
+        }
+        // TODO: other statuses handling
+    }
+
+    public static void loginResponseHandler(Response response) {
+        User user = (User) response.getData("user");
+        if ( response.getResponseType() == ResponseType.INVALID_LOGIN ) {
+            ClientUtil.popAlert(Alert.AlertType.ERROR, "client.login.login_failed");
+            return;
+        } else if ( response.getResponseType() == ResponseType.ALREADY_LOGON ) {
+            ClientUtil.popAlert(Alert.AlertType.ERROR, "client.login.already_logon");
+        }
+
+        user.setOnline(true);
+        ClientUtil.appendTextToMessageArea("\nHello user: " + user.getNickname() + " <" + user.getId() + ">\n");
+        ClientDataBuffer.currentUser = user;
+        ClientDataBuffer.isLoggedIn = true;
+        Platform.runLater(stage::close);
+    }
+
     public static void sendMessage() {
         String content = ClientChatRoomTab.chatRoomTypeArea.getText();
         if ( content.isBlank() ) {
@@ -89,6 +70,11 @@ public class ClientAction {
             request.setAttribute("msg", msg);
             try {
                 ClientUtil.sendRequestWithoutResponse(request);
+//                Response response = ClientUtil.sendRequestWithResponse(request);
+//                if ( response.getResponseType() == ResponseType.CHAT && response.getResponseStatus() == ResponseStatus.OK ) {
+//                   Message serverMsg = (Message) response.getData("Chat");
+//                   ClientUtil.appendTextToMessageArea(serverMsg.getContent());
+//                }
             } catch (IOException e) {
                 e.printStackTrace(); // TODO: proper exception handling
             }

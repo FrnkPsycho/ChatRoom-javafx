@@ -1,15 +1,12 @@
 package top.frnks.chatroomjavafx.client;
 
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import top.frnks.chatroomjavafx.client.util.ClientAction;
 import top.frnks.chatroomjavafx.client.util.ClientUtil;
 import top.frnks.chatroomjavafx.common.model.entity.*;
-import top.frnks.chatroomjavafx.common.util.PasswordUtil;
 import top.frnks.chatroomjavafx.common.util.TranslatableString;
 
 import java.io.IOException;
@@ -77,26 +74,11 @@ public class ClientLogin {
         request.setAttribute("nickname", nicknameField.getText());
         request.setAttribute("password", passwordField.getText());
 
-        Response response;
         try {
-            response = ClientUtil.sendRequestWithResponse(request);
+            ClientUtil.sendRequestWithoutResponse(request);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        User user = (User) response.getData("user");
-        if ( response.getResponseType() == ResponseType.INVALID_LOGIN ) {
-            ClientUtil.popAlert(Alert.AlertType.ERROR, "client.login.login_failed");
-            return;
-        } else if ( response.getResponseType() == ResponseType.ALREADY_LOGON ) {
-            ClientUtil.popAlert(Alert.AlertType.ERROR, "client.login.already_logon");
-        }
-
-        user.setOnline(true);
-        ClientUtil.appendTextToMessageArea("\nHello user: " + user.getNickname() + " <" + user.getId() + ">\n");
-        ClientDataBuffer.currentUser = user;
-        ClientDataBuffer.isLoggedIn = true;
-        stage.close();
     }
 
     public static void signup() {
@@ -116,24 +98,12 @@ public class ClientLogin {
         request.setAttribute("nickname", nicknameField.getText());
         request.setAttribute("password", passwordField.getText());
 
-        Response response;
         try {
-            response = ClientUtil.sendRequestWithResponse(request);
+            ClientUtil.sendRequestWithoutResponse(request);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        User user = (User) response.getData("user");
-        if ( user == null ) {
-            ClientUtil.popAlert(Alert.AlertType.ERROR, "client.login.registered");
-            return;
-        }
-
-        ClientUtil.popAlert(Alert.AlertType.INFORMATION, "client.login.signup_success");
-        ClientUtil.appendTextToMessageArea("\nHello new user: " + user.getNickname() + ", we have allocate an ID for you: " + user.getId() + ", keep in mind!");
-//        login();
-//        ClientDataBuffer.currentUser = user;
-//        ClientDataBuffer.isLoggedIn = true;
-//        stage.close();
+        // signup response handler moves to ClientAction due to some stream issue
     }
 }

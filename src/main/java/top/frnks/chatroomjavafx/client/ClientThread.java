@@ -23,22 +23,24 @@ public class ClientThread extends Thread {
         connectToServer(ServerProperties.getProperty("serverIp"), Integer.parseInt(ServerProperties.getProperty("serverPort")));
         LOGGER.info("Started Server Listener Thread");
 
+        boolean listening = true;
         try {
-            while (ClientDataBuffer.clientSocket.isConnected()) {
+            while (listening) {
+//                System.out.println("HAHA"); // FIXME: debug line
                 Response response = (Response) ClientDataBuffer.objectInputStream.readObject();
                 ResponseType responseType = response.getResponseType();
                 LOGGER.info("Received response from server: " + response + " " + responseType);
-                // FIXME: 5/29/23 Unable to receive response from server
 
                 switch (responseType) {
-                    case BROADCAST -> {
+                    case CHAT -> {
+                        // TODO: make these a function
                         Message message = (Message) response.getData("Chat");
                         ClientUtil.appendTextToMessageArea(message.getContent());
                         // TODO: chat records
                         LOGGER.info("Update public board with chat message: " + message.getContent());
                     }
-//                    case ALREADY_LOGON, INVALID_LOGIN, LOGIN -> ClientLogin.login();
-//                    case SIGNUP ->
+                    case ALREADY_LOGON, INVALID_LOGIN, LOGIN -> ClientAction.loginResponseHandler(response);
+                    case SIGNUP -> ClientAction.signupResponseHandler(response);
                 }
             }
         } catch ( IOException e ) {
@@ -68,4 +70,5 @@ public class ClientThread extends Thread {
             connectToServer(remote, port); // TODO: don't use recursion!!!
         }
     }
+
 }

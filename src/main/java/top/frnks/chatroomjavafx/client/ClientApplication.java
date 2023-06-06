@@ -8,15 +8,8 @@ import javafx.stage.Stage;
 import top.frnks.chatroomjavafx.client.util.ClientUtil;
 import top.frnks.chatroomjavafx.common.model.entity.ActionType;
 import top.frnks.chatroomjavafx.common.model.entity.Request;
-import top.frnks.chatroomjavafx.common.model.entity.Response;
-import top.frnks.chatroomjavafx.common.model.entity.User;
 import top.frnks.chatroomjavafx.common.util.TranslatableString;
-import top.frnks.chatroomjavafx.server.ServerProperties;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.logging.Logger;
 
 public class ClientApplication extends Application {

@@ -52,6 +52,7 @@ public class RequestProcessor implements Runnable {
                     case SIGNUP -> signup(currentClientIOCache);
                     case LOGOUT -> listening = logout();
                 }
+                LOGGER.info("Sent Response to Client " + currentClientSocket.getRemoteSocketAddress());
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -88,6 +89,7 @@ public class RequestProcessor implements Runnable {
 
         currentClientIO.getObjectOutputStream().writeObject(response);
         currentClientIO.getObjectOutputStream().flush();
+        LOGGER.info("Sent signup response to client"); // FIXME: debug line
     }
 
     private void login(OnlineClientIOCache currentClientIO) throws IOException {
@@ -144,17 +146,12 @@ public class RequestProcessor implements Runnable {
         response.setResponseType(ResponseType.CHAT);
         response.setData("Chat", msg);
 
-
         if ( msg.getToUser() != null ) { // private chat
             OnlineClientIOCache from = ServerDataBuffer.onlineClientIOCacheMap.get(msg.getFromUser().getId());
             OnlineClientIOCache to = ServerDataBuffer.onlineClientIOCacheMap.get(msg.getToUser().getId());
             sendResponse(from, response);
             sendResponse(to, response);
         } else { // public chat
-//            for ( Long id: ServerDataBuffer.onlineClientIOCacheMap.keySet() ) {
-//                sendResponse(ServerDataBuffer.onlineClientIOCacheMap.get(id), response);
-//            }
-//            LOGGER.info("Broadcast response: " + response.getResponseType());
             broadcastResponse(response);
         }
     }
