@@ -64,6 +64,8 @@ public class RequestProcessor implements Runnable {
         user.setOnline(false);
 
         ServerDataBuffer.onlineUsersMap.remove(user.getId());
+        ServerDataBuffer.onlineUsersList.removeIf(user1 -> user1.getId() == user.getId());
+        ServerApplication.onlineUserListView.refresh();
         ServerDataBuffer.onlineClientIOCacheMap.remove(user.getId());
 
         Response response = new Response();
@@ -117,6 +119,8 @@ public class RequestProcessor implements Runnable {
             response.setResponseStatus(ResponseStatus.OK);
             // Successfully logon
             ServerDataBuffer.onlineUsersMap.putIfAbsent(user.getId(), user);
+            ServerDataBuffer.onlineUsersList.add(user);
+            ServerApplication.onlineUserListView.refresh();
 
             // add login user to cache map
             ServerDataBuffer.onlineClientIOCacheMap.put(user.getId(), currentClientIO);
@@ -144,10 +148,12 @@ public class RequestProcessor implements Runnable {
 
     private void chat() throws IOException {
         Message msg = (Message) request.getAttribute("msg");
+        ServerApplication.appendTextToMessageArea(msg.getContent());
+
         Response response = new Response();
         response.setResponseStatus(ResponseStatus.OK);
         response.setResponseType(ResponseType.CHAT);
-        response.setData("Chat", msg);
+        response.setData("msg", msg);
 
         if ( msg.getToUser() != null ) { // private chat
             OnlineClientIOCache from = ServerDataBuffer.onlineClientIOCacheMap.get(msg.getFromUser().getId());
@@ -179,7 +185,7 @@ public class RequestProcessor implements Runnable {
         LOGGER.info("Successfully sent response: " + response + " to " + ioCache);
     }
 
-    private void broadcastResponse(Response response) throws IOException {
+    public static void broadcastResponse(Response response) throws IOException {
         for ( var onlineUserIO : ServerDataBuffer.onlineClientIOCacheMap.values()) {
             ObjectOutputStream oos = onlineUserIO.getObjectOutputStream();
             oos.writeObject(response);

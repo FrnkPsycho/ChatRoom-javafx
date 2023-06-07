@@ -34,7 +34,7 @@ public class ClientThread extends Thread {
                 switch (responseType) {
                     case CHAT -> {
                         // TODO: make these a function
-                        Message message = (Message) response.getData("Chat");
+                        Message message = (Message) response.getData("msg");
                         ClientUtil.appendTextToMessageArea(message.getContent());
                         // TODO: chat records
                         LOGGER.info("Update public board with chat message: " + message.getContent());

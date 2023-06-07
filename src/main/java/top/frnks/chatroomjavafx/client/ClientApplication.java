@@ -30,7 +30,6 @@ public class ClientApplication extends Application {
         while (!ClientDataBuffer.isLoggedIn) {
             // TODO: avoid busy wait
         }
-//        // TODO: login to get currentUser
 
         mainRoot.getChildren().add(mainTabsRoot);
 

@@ -20,8 +20,6 @@ public class ClientChatRoomTab {
     public static final Button chatRoomTypeSendPictureButton = new Button("Pic"); // TODO: use icon instead of text
     public static final TilePane chatRoomTypeTools = new TilePane();
     public static final TextArea chatRoomTypeArea = new TextArea();
-//    public static final ScrollPane chatRoomTypePane = new ScrollPane(chatRoomTypeArea);
-//    public static final ObservableList<User> onlineUserList = FXCollections.observableList(ClientDataBuffer.onlineUsers);
     public static final ListView<User> onlineUserListView = new ListView<>();
 
     static {
@@ -29,18 +27,6 @@ public class ClientChatRoomTab {
 
         chatRoomFrame.setHgap(10);
         chatRoomFrame.setVgap(10);
-
-        List<User> members = new ArrayList<>();
-        for ( int i = 10000; i<10030; i++) {
-            members.add(new User(i, "User"+i, "aaa"));
-        }
-//        members.get(0).setOnline(true);
-//        members.get(1).setOnline(true);
-//        members.get(0).addFriend(members.get(1));
-//        members.get(0).removeFriend(members.get(1));
-//        members.get(1).setOnline(false);
-        // TODO: member list just for testing
-        // TODO: update members when a user is online
 
         chatRoomMessageArea.setEditable(false);
 //        chatRoomMessageArea.set(Pos.BOTTOM_LEFT); // TODO make TextArea aligned to bottom left
@@ -57,11 +43,6 @@ public class ClientChatRoomTab {
 //            }
 //        });
 
-        // TODO: debug
-//        for ( int i = 0; i<9; i++ ) {
-//            chatRoomTypeArea.setText("a");
-//            ClientAction.sendMessage();
-//        }
 
         chatRoomTypeTools.getChildren().add(chatRoomTypeSendPictureButton);
 

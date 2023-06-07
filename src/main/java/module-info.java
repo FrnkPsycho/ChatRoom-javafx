@@ -12,6 +12,7 @@ module top.frnks.chatroomjavafx {
     requires java.logging;
 
     exports top.frnks.chatroomjavafx.client;
+    exports top.frnks.chatroomjavafx.server;
     exports top.frnks.chatroomjavafx.common.type;
     exports top.frnks.chatroomjavafx.common.util;
     exports top.frnks.chatroomjavafx.common.model.entity;

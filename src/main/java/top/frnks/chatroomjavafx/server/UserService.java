@@ -95,6 +95,8 @@ public class UserService {
 
     @SuppressWarnings("unchecked")
     public User login(long id, String password) {
+        if ( id == 0 ) return null;
+
         User searchResult = null;
         List<User> users = this.loadUsers();
         for ( User user : users ) {
@@ -112,6 +114,8 @@ public class UserService {
 
     @SuppressWarnings("unchecked")
     public User login(String nickname, String password) {
+        if ( nickname.equals("Server Admin") ) return null;
+
         User searchResult = null;
         List<User> users = this.loadUsers();
         for ( User user : users ) {
@@ -131,6 +135,8 @@ public class UserService {
      * return signup user object if nickname was not occupied, null if so.
      */
     public User signup(String nickname, String password) {
+        if ( nickname.equals("Server Admin") ) return null;
+
         var users = loadUsers();
         for ( var u : users ) {
             if ( u.getNickname().equals(nickname) ) {
