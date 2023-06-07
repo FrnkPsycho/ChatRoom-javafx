@@ -102,12 +102,11 @@ public class User implements Serializable {
 
     public void setOnline(boolean online) {
         this.online = online;
-        if ( online ) {
-            ClientApplication.LOGGER.info(this + " " + "is now online.");
-        } else {
-            ClientApplication.LOGGER.info(this + " " + "is now offline.");
-        }
-        // TODO: user online server broadcast
+//        if ( online ) {
+//            ClientApplication.LOGGER.info(this + " " + "is now online.");
+//        } else {
+//            ClientApplication.LOGGER.info(this + " " + "is now offline.");
+//        }
     }
 
     public List<User> getFriendsList() {

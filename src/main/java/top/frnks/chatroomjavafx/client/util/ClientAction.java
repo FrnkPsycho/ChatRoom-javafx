@@ -15,14 +15,24 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static top.frnks.chatroomjavafx.client.ClientLogin.stage;
 
 public class ClientAction {
+    public static void logoutResponseHandler(Response response) {
+        if ( response.getResponseStatus() == ResponseStatus.OK ) {
+            User user = (User) response.getData("user");
+            if ( user.getId() == ClientDataBuffer.currentUser.getId() ) {
+                Platform.exit();
+            } else {
+                ClientUtil.appendTextToMessageArea(user.getDisplayName() + new TranslatableString("client.chat.logout").translate());
+                ClientDataBuffer.onlineUsersList.removeIf(u -> u.getId() == user.getId());
+                ClientChatRoomTab.onlineUserListView.refresh();
+            }
+        }
+    }
     public static void broadcastResponseHandler(Response response) {
         if ( response.getResponseStatus() == ResponseStatus.OK ) {
             User loginUser = (User) response.getData("loginUser");
             ClientUtil.appendTextToMessageArea(loginUser.getDisplayName() + new TranslatableString("client.chat.online").translate());
-
             ClientDataBuffer.onlineUsersList.add(loginUser);
             ClientChatRoomTab.onlineUserListView.refresh();
-            // TODO: set new online users list
         }
     }
     public static void signupResponseHandler(Response response) {
@@ -74,9 +84,7 @@ public class ClientAction {
 //            DateFormat df = new SimpleDateFormat("HH:mm:ss"); // TODO: make format compatible with different locale
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             String sb = msg.getSendTime().format(dtf) +
-                    " " +
-                    msg.getFromUser().getNickname() +
-                    "<" + msg.getFromUser().getId() + ">" +
+                    " " + msg.getFromUser().getDisplayName() +
                     "\n" + content + "\n";
             msg.setContent(sb);
 

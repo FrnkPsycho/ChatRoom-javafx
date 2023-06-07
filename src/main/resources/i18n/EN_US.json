@@ -20,6 +20,7 @@
   "client.tab.private": "Private Chat",
   "client.chat.send": "Send",
   "client.chat.online": " is now online!\n",
+  "client.chat.logout": " is now offline!\n",
   "client.chat.motd": "Welcome to the public chat room, feel free to talk!\n",
   "common.default_nickname": "Anonymous",
   "alert.blank_message": "Cannot send blank message!",

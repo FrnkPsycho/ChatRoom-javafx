@@ -42,6 +42,7 @@ public class ClientThread extends Thread {
                     case ALREADY_LOGON, INVALID_LOGIN, LOGIN -> ClientAction.loginResponseHandler(response);
                     case SIGNUP -> ClientAction.signupResponseHandler(response);
                     case BROADCAST -> ClientAction.broadcastResponseHandler(response);
+                    case LOGOUT -> ClientAction.logoutResponseHandler(response);
                 }
             }
         } catch ( IOException e ) {
