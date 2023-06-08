@@ -2,12 +2,15 @@ package top.frnks.chatroomjavafx.client.util;
 
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Tab;
 import top.frnks.chatroomjavafx.client.ClientApplication;
 import top.frnks.chatroomjavafx.client.ClientChatRoomTab;
 import top.frnks.chatroomjavafx.client.ClientDataBuffer;
+import top.frnks.chatroomjavafx.client.ClientPrivateTab;
 import top.frnks.chatroomjavafx.common.model.entity.ActionType;
 import top.frnks.chatroomjavafx.common.model.entity.Request;
 import top.frnks.chatroomjavafx.common.model.entity.Response;
+import top.frnks.chatroomjavafx.common.model.entity.User;
 import top.frnks.chatroomjavafx.common.util.TranslatableString;
 
 import java.io.IOException;
@@ -69,6 +72,19 @@ public class ClientUtil {
             Alert alert = new Alert(alertType, new TranslatableString(i18nIdentifier).translate());
             alert.show();
         });
+    }
+
+    public static void switchToPrivateChat(User target) {
+        for ( var tab : ClientPrivateTab.privateChatUsersTabPane.getTabs() ) {
+            if ( target.getNickname().equals(tab.getText()) ) {
+                ClientApplication.mainTabsRoot.getSelectionModel().select(tab);
+                ClientApplication.mainTabsRoot.getSelectionModel().select(1);
+                return;
+            }
+        }
+        Tab newTab = ClientPrivateTab.addPrivateChatTab(target);
+        ClientPrivateTab.privateChatUsersTabPane.getSelectionModel().select(newTab);
+        ClientApplication.mainTabsRoot.getSelectionModel().select(1);
     }
 
 

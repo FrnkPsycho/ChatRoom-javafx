@@ -1,8 +1,11 @@
 package top.frnks.chatroomjavafx.client;
 
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import top.frnks.chatroomjavafx.client.util.ClientAction;
+import top.frnks.chatroomjavafx.client.util.ClientUtil;
 import top.frnks.chatroomjavafx.common.model.entity.User;
 import top.frnks.chatroomjavafx.common.util.TranslatableString;
 
@@ -16,7 +19,20 @@ public class UserListContextMenu extends ContextMenu {
         addFriendMenuItem.setOnAction(event -> {
             User target = ClientChatRoomTab.onlineUserListView.getSelectionModel().getSelectedItem();
             ClientAction.addFriend(target);
-            System.out.println("Sent request!");
+//            System.out.println("Sent request!");
+        });
+
+        startPrivateChatMenuItem.setOnAction(event -> {
+            User target = ClientChatRoomTab.onlineUserListView.getSelectionModel().getSelectedItem();
+            for ( var user : ClientDataBuffer.currentUser.getFriendsList() ) {
+                if ( target.getId() == user.getId() ) {
+                    ClientUtil.switchToPrivateChat(target);
+                    return;
+                }
+            }
+            Platform.runLater(() -> {
+                ClientUtil.popAlert(Alert.AlertType.ERROR, "client.private.not_friend");
+            });
         });
     }
 

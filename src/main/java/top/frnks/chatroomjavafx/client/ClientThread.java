@@ -32,13 +32,7 @@ public class ClientThread extends Thread {
                 LOGGER.info("Received response from server: " + response + " " + responseType);
 
                 switch (responseType) {
-                    case CHAT -> {
-                        // TODO: make these a function
-                        Message message = (Message) response.getData("msg");
-                        ClientUtil.appendTextToMessageArea(message.getContent());
-                        // TODO: chat records
-                        LOGGER.info("Update public board with chat message: " + message.getContent());
-                    }
+                    case CHAT -> ClientAction.chatResponseHandler(response);
                     case ALREADY_LOGON, INVALID_LOGIN, LOGIN -> ClientAction.loginResponseHandler(response);
                     case LOGOUT -> ClientAction.logoutResponseHandler(response);
                     case SIGNUP -> ClientAction.signupResponseHandler(response);

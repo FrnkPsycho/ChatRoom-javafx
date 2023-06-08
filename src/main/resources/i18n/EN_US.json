@@ -22,6 +22,7 @@
   "client.chat.online": " is now online!\n",
   "client.chat.logout": " is now offline!\n",
   "client.chat.motd": "Welcome to the public chat room, feel free to talk!\n",
+  "client.private.not_friend": "You are not this user's friend!",
   "common.default_nickname": "Anonymous",
   "alert.blank_message": "Cannot send blank message!",
   "alert.friend.need_selection": "Please select a user!",

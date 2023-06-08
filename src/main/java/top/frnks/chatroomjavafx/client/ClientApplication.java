@@ -40,11 +40,12 @@ public class ClientApplication extends Application {
 
         mainTabsRoot.getTabs().add(chatRoomTab);
         mainTabsRoot.getTabs().add(privateTab);
-        mainTabsRoot.getTabs().add(profileTab);
-        mainTabsRoot.getTabs().add(friendsTab);
+//        mainTabsRoot.getTabs().add(profileTab); // TODO: profile tab
+//        mainTabsRoot.getTabs().add(friendsTab); // TODO: friends tab
 
         chatRoomTab.setContent(ClientChatRoomTab.chatRoomFrame);
         friendsTab.setContent(ClientFriendsTab.friendsFrame);
+        privateTab.setContent(ClientPrivateTab.privateChatFrame);
 
 //        mainRoot.setPrefSize(800, 600);
         stage.setTitle(new TranslatableString("client.window.title").translate());
