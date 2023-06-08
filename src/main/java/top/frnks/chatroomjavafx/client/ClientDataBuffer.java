@@ -17,6 +17,7 @@ public class ClientDataBuffer {
     public static User currentUser;
     public static List<User> onlineUsers = new CopyOnWriteArrayList<>();
     public static ObservableList<User> onlineUsersList = FXCollections.observableArrayList();
+    public static ObservableList<User> currentUserFriendList = FXCollections.observableArrayList();
     public static Socket clientSocket;
     public static ObjectInputStream objectInputStream;
     public static ObjectOutputStream objectOutputStream;

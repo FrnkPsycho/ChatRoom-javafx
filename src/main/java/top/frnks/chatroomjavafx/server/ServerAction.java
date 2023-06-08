@@ -34,6 +34,15 @@ public class ServerAction {
     public static void sendMessage(){
         String content = ServerApplication.chatRoomTypeArea.getText();
         ServerApplication.chatRoomTypeArea.setText("");
+
+        if ( content.equals("/list") ) {
+            var users = RequestProcessor.userService.loadUsers();
+            for ( var user : users ) {
+                ServerApplication.appendTextToMessageArea(user.getDisplayName() + ": " + user.getFriendsList() + "\n\n");
+            }
+            return;
+        }
+
         if ( content.isBlank() ) {
             Alert blankMessageAlert = new Alert(Alert.AlertType.ERROR, new TranslatableString("alert.blank_message").translate());
             blankMessageAlert.show();

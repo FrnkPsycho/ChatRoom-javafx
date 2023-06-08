@@ -19,14 +19,15 @@ public class UserCellFactory implements Callback<ListView<User>, ListCell<User>>
                 super.updateItem(item, empty);
                 if ( empty || item == null) setText(null);
                 else {
-                    // decided to make public chat list only shows online users
-//                    if ( item.isOnline() ) {
-//                        setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
-//                    }
-                    if ( ClientDataBuffer.currentUser.getFriendsList().contains(item) ) {
-                        setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+                    for ( var u : ClientDataBuffer.currentUser.getFriendsList() ) {
+                        if ( u.getId() == item.getId() ) {
+                            setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+                        }
                     }
-                    setText(item.getNickname() + " <" + item.getId() + ">");
+                    if ( item.getId() == ClientDataBuffer.currentUser.getId() ) {
+                        setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+                    }
+                    setText(item.getDisplayName());
                 }
                 // TODO: add avatar
             }

@@ -2,6 +2,8 @@ package top.frnks.chatroomjavafx.client.util;
 
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import top.frnks.chatroomjavafx.client.*;
 import top.frnks.chatroomjavafx.common.model.entity.*;
 import top.frnks.chatroomjavafx.common.util.TranslatableString;
@@ -10,11 +12,53 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static top.frnks.chatroomjavafx.client.ClientLogin.stage;
 
 public class ClientAction {
+    public static void agreeFriendRequestResponseHandler(Response response) {
+        if ( response.getResponseStatus() == ResponseStatus.OK ) {
+            Message message = (Message) response.getData("friend_request");
+            User user = message.getToUser();
+            ClientDataBuffer.currentUser.addFriend(user);
+            ClientFriendsTab.friendsListView.refresh();
+            ClientChatRoomTab.onlineUserListView.refresh();
+        }
+    }
+    public static void friendRequestResponseHandler(Response response) {
+        if ( response.getResponseStatus() == ResponseStatus.OK ) {
+            Message message = (Message) response.getData("friend_request");
+            User user = message.getFromUser();
+
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, user.getDisplayName() + new TranslatableString("alert.friend.prompt").translate());
+                Optional<ButtonType> result = alert.showAndWait();
+
+                Request request = new Request();
+                request.setAttribute("friend_request", message);
+
+                if ( result.get() == ButtonType.OK ) {
+                    ClientDataBuffer.currentUser.addFriend(user);
+                    ClientFriendsTab.friendsListView.refresh();
+                    ClientChatRoomTab.onlineUserListView.refresh();
+
+                    request.setAction(ActionType.AGREE_FRIEND_REQUEST); // FIXME: maybe useless
+                    request.setResponseType(ResponseType.AGREE_FRIEND_REQUEST);
+
+                } else if ( result.get() == ButtonType.NO ) {
+                    // TODO: refuse friend request
+                }
+
+                try {
+                    ClientUtil.sendRequestWithoutResponse(request);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }
+    }
     public static void logoutResponseHandler(Response response) {
         if ( response.getResponseStatus() == ResponseStatus.OK ) {
             User user = (User) response.getData("user");
@@ -22,6 +66,8 @@ public class ClientAction {
                 Platform.exit();
             } else {
                 ClientUtil.appendTextToMessageArea(user.getDisplayName() + new TranslatableString("client.chat.logout").translate());
+//                Platform.runLater(() -> {
+//                });
                 ClientDataBuffer.onlineUsersList.removeIf(u -> u.getId() == user.getId());
                 ClientChatRoomTab.onlineUserListView.refresh();
             }
@@ -31,6 +77,8 @@ public class ClientAction {
         if ( response.getResponseStatus() == ResponseStatus.OK ) {
             User loginUser = (User) response.getData("loginUser");
             ClientUtil.appendTextToMessageArea(loginUser.getDisplayName() + new TranslatableString("client.chat.online").translate());
+//            Platform.runLater(() -> {
+//            });
             ClientDataBuffer.onlineUsersList.add(loginUser);
             ClientChatRoomTab.onlineUserListView.refresh();
         }
@@ -107,12 +155,16 @@ public class ClientAction {
     }
 
     public static void addFriend(User target) {
+        for ( var u : ClientDataBuffer.currentUser.getFriendsList() ) {
+            if ( target.getId() == u.getId() ) {
+                new Alert(Alert.AlertType.WARNING, new TranslatableString("alert.friend.already_friend").translate()).show();
+                return;
+            }
+        }
         if ( target == null ) {
             new Alert(Alert.AlertType.WARNING, new TranslatableString("alert.friend.need_selection").translate()).show();
         } else if ( target.getId() == ClientDataBuffer.currentUser.getId()) {
             new Alert(Alert.AlertType.WARNING, new TranslatableString("alert.friend.invalid_self").translate()).show();
-        } else if (ClientDataBuffer.currentUser.getFriendsList().contains(target)) {
-            new Alert(Alert.AlertType.WARNING, new TranslatableString("alert.friend.already_friend").translate()).show();
         } else {
             Message msg = new Message();
             msg.setFromUser(ClientDataBuffer.currentUser);

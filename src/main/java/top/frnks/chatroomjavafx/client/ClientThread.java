@@ -40,9 +40,11 @@ public class ClientThread extends Thread {
                         LOGGER.info("Update public board with chat message: " + message.getContent());
                     }
                     case ALREADY_LOGON, INVALID_LOGIN, LOGIN -> ClientAction.loginResponseHandler(response);
+                    case LOGOUT -> ClientAction.logoutResponseHandler(response);
                     case SIGNUP -> ClientAction.signupResponseHandler(response);
                     case BROADCAST -> ClientAction.broadcastResponseHandler(response);
-                    case LOGOUT -> ClientAction.logoutResponseHandler(response);
+                    case FRIEND_REQUEST -> ClientAction.friendRequestResponseHandler(response);
+                    case AGREE_FRIEND_REQUEST -> ClientAction.agreeFriendRequestResponseHandler(response);
                 }
             }
         } catch ( IOException e ) {

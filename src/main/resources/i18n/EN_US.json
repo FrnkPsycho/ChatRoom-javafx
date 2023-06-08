@@ -28,6 +28,7 @@
   "alert.friend.invalid_self": "You cannot add yourself to friend list!",
   "alert.friend.already_friend": "This user is already your friend!",
   "alert.friend.sent_request": "Successfully sent request to this user!",
+  "alert.friend.prompt": " want to be your friend, do you accept?",
   "menu.private_chat": "Private Chat",
   "menu.add_friend": "Request Friend",
   "menu.delete_friend": "Delete Friend"

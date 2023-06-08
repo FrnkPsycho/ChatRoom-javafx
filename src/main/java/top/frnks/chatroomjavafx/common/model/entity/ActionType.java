@@ -7,5 +7,7 @@ public enum ActionType {
     LOGIN,
     SIGNUP,
     LOGOUT,
+    AGREE_FRIEND_REQUEST,
+    AGREE_FRIEND_DELETE,
 
 }

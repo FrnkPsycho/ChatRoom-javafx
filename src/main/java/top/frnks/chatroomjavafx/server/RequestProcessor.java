@@ -14,7 +14,7 @@ public class RequestProcessor implements Runnable {
     public static final Logger LOGGER = ServerApplication.LOGGER;
     private final Socket currentClientSocket;
     private Request request;
-    private UserService userService;
+    public static UserService userService;
 
     public RequestProcessor(Socket currentClientSocket) {
         this.currentClientSocket = currentClientSocket;
@@ -48,6 +48,7 @@ public class RequestProcessor implements Runnable {
                 switch (actionType) {
                     case CHAT -> chat();
                     case FRIEND_REQUEST -> friendRequest();
+                    case AGREE_FRIEND_REQUEST -> agreeFriendRequest();
                     case LOGIN -> login(currentClientIOCache);
                     case SIGNUP -> signup(currentClientIOCache);
                     case LOGOUT -> listening = logout();
@@ -57,6 +58,27 @@ public class RequestProcessor implements Runnable {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void agreeFriendRequest() throws IOException {
+        Message msg = (Message) request.getAttribute("friend_request");
+
+        User fromUser = msg.getFromUser();
+        User toUser = msg.getToUser();
+        fromUser.addFriend(toUser);
+        toUser.addFriend(fromUser);
+        userService.saveUser(fromUser);
+        userService.saveUser(toUser);
+
+        Response response = new Response();
+        response.setResponseStatus(ResponseStatus.OK);
+        response.setResponseType(ResponseType.AGREE_FRIEND_REQUEST);
+        response.setData("friend_request", msg);
+
+//        OnlineClientIOCache from = ServerDataBuffer.onlineClientIOCacheMap.get(msg.getFromUser().getId());
+        OnlineClientIOCache to = ServerDataBuffer.onlineClientIOCacheMap.get(fromUser.getId());
+
+        sendResponse(to, response);
     }
 
     private boolean logout() throws IOException {
@@ -170,7 +192,7 @@ public class RequestProcessor implements Runnable {
         response.setResponseStatus(ResponseStatus.OK);
         response.setResponseType(ResponseType.FRIEND_REQUEST);
         Message msg = (Message) request.getAttribute("msg");
-        response.setData("FriendRequest", msg);
+        response.setData("friend_request", msg);
 
         LOGGER.info("Receive Friend Request from " + msg.getFromUser() + " To " + msg.getToUser());
 

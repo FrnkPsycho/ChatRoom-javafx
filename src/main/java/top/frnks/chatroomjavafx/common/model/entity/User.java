@@ -39,14 +39,8 @@ public class User implements Serializable {
         // TODO: sensitive nickname check
     }
     public void addFriend(User user) {
-        if ( friendsList.contains(user) ) {
-            // TODO: handle if target user is already user's friend
-            ClientApplication.LOGGER.info(user + " is already your friend.");
-        }
-        else {
-            friendsList.add(user);
-            ClientApplication.LOGGER.info("Successfully added friend: " + user);
-        }
+        friendsList.add(user);
+        ClientApplication.LOGGER.info("Successfully added friend: " + user);
     }
     public void removeFriend(User user) {
         friendsList.remove(user);
@@ -110,8 +104,6 @@ public class User implements Serializable {
     }
 
     public List<User> getFriendsList() {
-        // TODO: debug
-        friendsList.add(new User(10086, "DEBUG_USER", "111")); // TODO this user is for debugging
         return friendsList;
     }
 
