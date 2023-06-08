@@ -17,8 +17,8 @@ public class ClientChatRoomTab {
     public static final TextArea chatRoomMessageArea = new TextArea(new TranslatableString("client.chat.motd").translate());
 //    public static final ScrollPane chatRoomMessagePane = new ScrollPane(chatRoomMessageArea);
     public static final Button chatRoomTypeSendButton = new Button(new TranslatableString("client.chat.send").translate());
-    public static final Button chatRoomTypeSendPictureButton = new Button("Pic"); // TODO: use icon instead of text
-    public static final TilePane chatRoomTypeTools = new TilePane();
+//    public static final Button chatRoomTypeSendPictureButton = new Button("Pic"); // TODO: send picture
+//    public static final TilePane chatRoomTypeTools = new TilePane();
     public static final TextArea chatRoomTypeArea = new TextArea();
     public static final ListView<User> onlineUserListView = new ListView<>();
 
@@ -44,7 +44,7 @@ public class ClientChatRoomTab {
 //        });
 
 
-        chatRoomTypeTools.getChildren().add(chatRoomTypeSendPictureButton);
+//        chatRoomTypeTools.getChildren().add(chatRoomTypeSendPictureButton);
 
 //        chatRoomTypeArea.setAlignment(Pos.TOP_LEFT);
         chatRoomTypeArea.setWrapText(true);
@@ -62,7 +62,7 @@ public class ClientChatRoomTab {
 //        memberView.setContextMenu(new ContextMenu(new MenuItem("Check")));
 
         chatRoomFrame.add(chatRoomMessageArea, 0, 0);
-        chatRoomFrame.add(chatRoomTypeTools, 0, 1);
+//        chatRoomFrame.add(chatRoomTypeTools, 0, 1);
         chatRoomFrame.add(chatRoomTypeArea, 0, 2);
         chatRoomFrame.add(chatRoomTypeSendButton, 1, 2);
         chatRoomFrame.add(onlineUserListView, 1, 0);
