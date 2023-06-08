@@ -26,7 +26,6 @@ public class ClientThread extends Thread {
         boolean listening = true;
         try {
             while (listening) {
-//                System.out.println("HAHA"); // FIXME: debug line
                 Response response = (Response) ClientDataBuffer.objectInputStream.readObject();
                 ResponseType responseType = response.getResponseType();
                 LOGGER.info("Received response from server: " + response + " " + responseType);
@@ -65,7 +64,7 @@ public class ClientThread extends Thread {
             } catch (InterruptedException ex) {
                 throw new RuntimeException(ex);
             }
-            connectToServer(remote, port); // TODO: don't use recursion!!!
+            connectToServer(remote, port);
         }
     }
 

@@ -12,7 +12,6 @@ public class ClientFriendsTab {
         friendsListView.setItems(null);
         friendsListView.setItems(ClientDataBuffer.currentUserFriendList);
         friendsListView.setCellFactory(new UserCellFactory());
-//        friendsListView.setMaxSize(1000, 1000);
         friendsFrame.getChildren().add(friendsListView);
     }
 

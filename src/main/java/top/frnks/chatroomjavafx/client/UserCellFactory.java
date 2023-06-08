@@ -29,7 +29,6 @@ public class UserCellFactory implements Callback<ListView<User>, ListCell<User>>
                     }
                     setText(item.getDisplayName());
                 }
-                // TODO: add avatar
             }
         };
     }

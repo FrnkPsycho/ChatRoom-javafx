@@ -33,14 +33,6 @@ public class RequestProcessor implements Runnable {
                     new ObjectOutputStream(currentClientSocket.getOutputStream())
             );
 
-//            // TODO: debug
-//            Response test = new Response();
-//            test.setResponseType(ResponseType.BROADCAST);
-//            test.setResponseStatus(ResponseStatus.OK);
-//            test.setData("ASDSADAS", 111);
-//            sendResponse(currentClientIOCache, test);
-//            LOGGER.info("Sent test response");
-
             while (listening) {
                 request = (Request) currentClientIOCache.getObjectInputStream().readObject();
                 ActionType actionType = request.getAction();
@@ -114,7 +106,6 @@ public class RequestProcessor implements Runnable {
 
         currentClientIO.getObjectOutputStream().writeObject(response);
         currentClientIO.getObjectOutputStream().flush();
-        LOGGER.info("Sent signup response to client"); // FIXME: debug line
     }
 
     private void login(OnlineClientIOCache currentClientIO) throws IOException {

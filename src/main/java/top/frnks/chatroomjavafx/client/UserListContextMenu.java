@@ -19,7 +19,6 @@ public class UserListContextMenu extends ContextMenu {
         addFriendMenuItem.setOnAction(event -> {
             User target = ClientChatRoomTab.onlineUserListView.getSelectionModel().getSelectedItem();
             ClientAction.addFriend(target);
-//            System.out.println("Sent request!");
         });
 
         startPrivateChatMenuItem.setOnAction(event -> {

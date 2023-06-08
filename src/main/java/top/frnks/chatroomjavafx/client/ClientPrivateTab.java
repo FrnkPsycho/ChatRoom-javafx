@@ -22,8 +22,6 @@ public class ClientPrivateTab {
     public static final TextArea privateChatTypeArea = new TextArea();
 
     static {
-//        addPrivateChatTab(ClientDataBuffer.currentUser);
-
         privateChatTypeSendButton.setPrefSize(200, 100);
         privateChatTypeSendButton.setOnAction(event -> ClientAction.sendPrivateMessage());
 

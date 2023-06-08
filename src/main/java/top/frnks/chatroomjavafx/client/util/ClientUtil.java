@@ -14,11 +14,6 @@ import top.frnks.chatroomjavafx.common.model.entity.User;
 import top.frnks.chatroomjavafx.common.util.TranslatableString;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.HexFormat;
 import java.util.logging.Logger;
 
 public class ClientUtil {
@@ -28,7 +23,6 @@ public class ClientUtil {
      * Send request, but do not receive response.
      */
     public static void sendRequestWithoutResponse(Request request) throws IOException {
-        // TODO: initialize data buffer oos
         ClientDataBuffer.objectOutputStream.writeObject(request);
         ClientDataBuffer.objectOutputStream.flush();
         LOGGER.info("Client sent request: " + request.getAction());
@@ -52,7 +46,6 @@ public class ClientUtil {
             if ( request.getAction().equals(ActionType.EXIT) ) {
                 LOGGER.info("Client closed connection.");
             } else {
-//                Thread.sleep(500);
                 response = (Response) ClientDataBuffer.objectInputStream.readObject();
             }
 
@@ -87,9 +80,4 @@ public class ClientUtil {
         ClientApplication.mainTabsRoot.getSelectionModel().select(1);
     }
 
-
-//    public static void appendTextToMessageArea(String text, User user) {
-//        ClientChatRoomTab.chatRoomMessageArea.setText(ClientChatRoomTab.chatRoomMessageArea.getText() + "\n" + text);
-//
-//    }
 }

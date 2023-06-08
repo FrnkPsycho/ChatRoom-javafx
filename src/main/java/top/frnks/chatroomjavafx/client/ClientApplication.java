@@ -28,7 +28,6 @@ public class ClientApplication extends Application {
         loadClient();
         ClientLogin.showWindow();
         while (!ClientDataBuffer.isLoggedIn) {
-            // TODO: avoid busy wait
         }
 
         mainRoot.getChildren().add(mainTabsRoot);
@@ -40,14 +39,11 @@ public class ClientApplication extends Application {
 
         mainTabsRoot.getTabs().add(chatRoomTab);
         mainTabsRoot.getTabs().add(privateTab);
-//        mainTabsRoot.getTabs().add(profileTab); // TODO: profile tab
-//        mainTabsRoot.getTabs().add(friendsTab); // TODO: friends tab
 
         chatRoomTab.setContent(ClientChatRoomTab.chatRoomFrame);
         friendsTab.setContent(ClientFriendsTab.friendsFrame);
         privateTab.setContent(ClientPrivateTab.privateChatFrame);
 
-//        mainRoot.setPrefSize(800, 600);
         stage.setTitle(new TranslatableString("client.window.title").translate());
         stage.setScene(mainScene);
         stage.show();

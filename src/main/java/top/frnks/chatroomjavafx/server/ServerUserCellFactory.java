@@ -22,7 +22,6 @@ public class ServerUserCellFactory implements Callback<ListView<User>, ListCell<
                 else {
                     setText(item.getNickname() + " <" + item.getId() + ">");
                 }
-                // TODO: add avatar
             }
         };
     }

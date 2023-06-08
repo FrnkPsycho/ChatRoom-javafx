@@ -22,10 +22,6 @@ public class ClientLogin {
 
 
     public static void showWindow() {
-        // debug
-//        ClientDataBuffer.currentUser = new User(88888, "DEBUG_CURRENT_USER", "password");
-
-
         HBox idBox = new HBox();
         idBox.getChildren().add(new Label(new TranslatableString("client.login.label.id").translate()));
         idBox.getChildren().add(idField);

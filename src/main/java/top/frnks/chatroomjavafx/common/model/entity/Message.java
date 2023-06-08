@@ -8,7 +8,7 @@ public class Message implements Serializable {
 //    @Serial
 //    private static final long serialVersionUID = 2L;
     private User fromUser;
-    private User toUser; // TODO: define a public broadcast user
+    private User toUser;
     private String content;
     private LocalDateTime sendTime;
 

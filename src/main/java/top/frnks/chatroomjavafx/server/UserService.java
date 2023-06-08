@@ -10,9 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
 
 public class UserService {
-    // TODO: using list to store data causes very bad performance, consider using database
     private static final int ID_BASE = 1;
-    private static int currentID;
     public static Logger LOGGER = ServerApplication.LOGGER;
     public void saveUsers(List<User> users) {
         ObjectOutputStream oos = null;

@@ -29,7 +29,6 @@ public class ServerAction {
         ServerDataBuffer.onlineUsersList.removeIf(user1 -> user1.getId() == user.getId());
         ServerApplication.onlineUserListView.refresh();
         ServerDataBuffer.onlineClientIOCacheMap.remove(user.getId());
-        // TODO: warn user that user was kicked, instead of forcing terminate program
     }
     public static void sendMessage(){
         String content = ServerApplication.chatRoomTypeArea.getText();
@@ -52,9 +51,7 @@ public class ServerAction {
             msg.setSendTime(LocalDateTime.now());
             msg.setFromUser(ServerDataBuffer.serverUser);
             msg.setToUser(null);
-//            msg.setToUser(); // TODO: if ToUser is null means the message broadcasts.
 
-//            DateFormat df = new SimpleDateFormat("HH:mm:ss"); // TODO: make format compatible with different locale
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             String sb = msg.getSendTime().format(dtf) +
                     " " + msg.getFromUser().getDisplayName() +
@@ -72,8 +69,6 @@ public class ServerAction {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
-            // TODO: ctrl+enter to send message
         }
     }
 }

@@ -17,11 +17,9 @@ public class User implements Serializable {
     private String nickname;
     private final String password;
     private final byte[] passwordSalt;
-    // TODO: avatar
+
     private Gender gender;
     private List<User> friendsList = new ArrayList<>(50);
-
-    // TODO: chat history
     private boolean online = false;
 
     public User(long id, String nickname, String rawPassword) {
@@ -36,7 +34,6 @@ public class User implements Serializable {
     static String checkNickname(String nickname) {
         if ( nickname.isEmpty() ) return new TranslatableString("common.default_nickname").translate();
         else return nickname;
-        // TODO: sensitive nickname check
     }
     public void addFriend(User user) {
         friendsList.add(user);
@@ -76,11 +73,6 @@ public class User implements Serializable {
     public String getPassword() {
         return password;
     }
-
-    // TODO: make password modifiable
-//    public void setRawPassword(String rawPassword) {
-//        this.rawPassword = rawPassword;
-//    }
 
     public Gender getGender() {
         return gender;
